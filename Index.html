@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLAME Protocol — Sovereign Settlement White Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f0e4;--bg-s:#ede5d0;--bg-c:#fdfaf2;
+  --gold:#8a6e18;--gold-l:#b8952a;--gold-m:#6a5412;
+  --text:#19150c;--text-s:#504838;--text-m:#8a7a5a;
+  --border:rgba(138,110,24,.2);--border-str:rgba(138,110,24,.42);
+  --navy:#0d2040;
+  --ff-d:'Cormorant Garamond',Georgia,serif;
+  --ff-b:'Crimson Pro',Georgia,serif
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--ff-b);font-size:17px;line-height:1.8;font-weight:300}
+.cd-bar{background:var(--navy);color:#c4a040;display:flex;align-items:center;justify-content:center;gap:2rem;padding:.55rem 2rem;font-family:var(--ff-b);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(196,160,64,.25)}
+.cd-label{opacity:.7}.cd-timer{font-weight:500;font-size:13px;color:#dfc070}.cd-note{font-size:10px;opacity:.5;font-style:italic}
+.nav{position:sticky;top:36px;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.8rem 3rem;background:rgba(245,240,228,.97);border-bottom:.5px solid var(--border-str);backdrop-filter:blur(8px)}
+.nav-brand{font-family:var(--ff-d);font-size:14px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--navy)}
+.nav-right{display:flex;align-items:center;gap:2rem}
+.nav-links{display:flex;gap:1.75rem;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-s);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.lang-toggle{display:flex;border:.5px solid var(--border-str);border-radius:2px;overflow:hidden}
+.lang-btn{background:transparent;border:none;color:var(--text-m);font-family:var(--ff-b);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .75rem;cursor:pointer;transition:all .2s}
+.lang-btn.active{background:var(--navy);color:#f0e8cc}
+.lang-btn:hover:not(.active){color:var(--gold)}
+.hero{padding:5.5rem 3rem 4.5rem;text-align:center;border-bottom:.5px solid var(--border-str)}
+.hero-eyebrow{font-size:10.5px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-m);margin-bottom:1.75rem}
+.hero-title{font-family:var(--ff-d);font-size:clamp(2.4rem,4.2vw,4rem);font-weight:300;line-height:1.08;color:var(--navy);margin-bottom:1.25rem}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:17.5px;font-weight:300;color:var(--text-s);max-width:720px;margin:0 auto 2.5rem;line-height:1.78}
+.hero-rule{width:50px;height:.5px;background:var(--gold-l);margin:0 auto 2.25rem;opacity:.55}
+.hero-badge{display:inline-block;border:.5px solid var(--border-str);padding:.35rem 1.2rem;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy)}
+.dl-section{background:var(--bg-s);border-bottom:.5px solid var(--border-str);padding:2.5rem 3rem}
+.dl-inner{max-width:1100px;margin:0 auto}
+.dl-heading{font-family:var(--ff-d);font-size:1.35rem;font-weight:500;color:var(--navy);margin-bottom:.25rem}
+.dl-sub{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-m);margin-bottom:1.75rem}
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1rem}
+.dl-card{background:var(--bg-c);border:.5px solid var(--border-str);padding:1.4rem}
+.dl-card-title{font-family:var(--ff-d);font-size:1.1rem;font-weight:500;color:var(--navy);margin-bottom:.4rem}
+.dl-card-desc{font-size:14px;color:var(--text-s);line-height:1.72;margin-bottom:1rem}
+.dl-items{list-style:none;margin-bottom:1.1rem}
+.dl-items li{font-size:12px;color:var(--text-m);padding-left:.9rem;position:relative;line-height:1.6}
+.dl-items li::before{content:'·';position:absolute;left:0;color:var(--gold)}
+.dl-btn{display:inline-block;background:var(--navy);color:#f0e8cc;font-family:var(--ff-b);font-size:11.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.3rem;border:none;cursor:pointer;transition:background .2s}
+.dl-btn:hover{background:var(--gold)}
+.dl-note{font-size:11.5px;color:var(--text-m);font-style:italic;text-align:center}
+.wrap{max-width:1100px;margin:0 auto;padding:4.5rem 3rem;border-bottom:.5px solid var(--border)}
+.sec-inner{display:grid;grid-template-columns:250px 1fr;gap:4rem;align-items:start}
+.sec-num{font-family:var(--ff-d);font-size:80px;font-weight:300;line-height:1;color:rgba(13,32,64,.1);margin-bottom:.6rem}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-m);margin-bottom:.5rem}
+.sec-recip{font-family:var(--ff-d);font-size:21px;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:.5rem}
+.sec-type{font-size:13px;color:var(--text-s);font-style:italic;margin-bottom:1.5rem}
+.tp-badge{display:inline-block;background:var(--navy);color:#dfc070;font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .8rem;margin-bottom:.75rem}
+.sec-head{font-family:var(--ff-d);font-size:1.9rem;font-weight:400;color:var(--navy);margin-bottom:1rem;line-height:1.18}
+.sec-lead{font-size:16px;font-weight:300;color:var(--text-s);margin-bottom:2.25rem;line-height:1.8;padding-bottom:1.75rem;border-bottom:.5px solid var(--border)}
+.pts{display:flex;flex-direction:column;gap:1.5rem}
+.pt{display:grid;grid-template-columns:1px 1fr;gap:1rem;align-items:start}
+.pt-bar{background:var(--gold-l);opacity:.45;width:1px;min-height:20px;margin-top:8px}
+.pt-lbl{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.22rem}
+.pt-txt{font-size:15px;font-weight:300;color:var(--text-s);line-height:1.75}
+.pt-txt strong{color:var(--text);font-weight:400}
+.kv-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:14px}
+.kv-table tr{border-bottom:.5px solid var(--border)}
+.kv-table td{padding:.7rem 1rem;vertical-align:top}
+.kv-table td:first-child{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-m);white-space:nowrap;width:210px;background:var(--bg-s)}
+.kv-table td:last-child{color:var(--text-s);font-family:'Courier New',monospace;font-size:13px}
+.vault-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:13px}
+.vault-table th{background:var(--navy);color:#dfc070;font-family:var(--ff-b);font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:.65rem 1rem;text-align:left}
+.vault-table td{padding:.65rem 1rem;border-bottom:.5px solid var(--border);vertical-align:top;color:var(--text-s);font-family:'Courier New',monospace;font-size:12.5px}
+.vault-table tr:nth-child(even) td{background:var(--bg-s)}
+.vault-table .vlt-head td{background:rgba(13,32,64,.05);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);font-family:var(--ff-b)}
+.vault-table .total-row td{background:var(--navy);color:#dfc070;font-weight:500}
+.poc-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:13px}
+.poc-table th{background:var(--bg-s);color:var(--navy);font-family:var(--ff-b);font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:.6rem 1rem;text-align:left;border-bottom:.5px solid var(--border-str)}
+.poc-table td{padding:.6rem 1rem;border-bottom:.5px solid var(--border);color:var(--text-s);font-size:13px}
+.poc-table td:first-child{font-family:'Courier New',monospace;color:var(--navy);font-size:12px}
+.poc-table td:last-child{text-align:right;font-family:'Courier New',monospace}
+.poc-table .poc-total td{background:rgba(13,32,64,.06);font-weight:500;color:var(--navy)}
+.pipeline{display:flex;flex-direction:column;gap:0;margin:1.75rem 0;border:.5px solid var(--border-str)}
+.pipeline-step{display:grid;grid-template-columns:40px 160px 1fr auto;align-items:center;gap:1.25rem;padding:1rem 1.25rem;background:var(--bg-c);border-bottom:.5px solid var(--border)}
+.pipeline-step:last-child{border-bottom:none}
+.ps-num{font-family:var(--ff-d);font-size:1.8rem;font-weight:300;color:rgba(13,32,64,.18);text-align:center}
+.ps-entity{font-family:var(--ff-d);font-size:15px;font-weight:600;color:var(--navy)}
+.ps-func{font-size:13.5px;color:var(--text-s)}
+.ps-status{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#2a6e2a;background:rgba(42,110,42,.1);padding:.25rem .7rem;white-space:nowrap}
+.atomic-note{background:var(--navy);color:#ede4cc;padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:14.5px;line-height:1.72;font-family:var(--ff-b);font-weight:300}
+.atomic-note strong{color:#dfc070;font-weight:400}
+.fb-block{margin:2rem 0;border:.5px solid var(--border-str)}
+.fb-hdr{background:var(--navy);color:#f0e8cc;padding:.9rem 1.25rem;display:flex;align-items:baseline;gap:1rem}
+.fb-hdr-title{font-family:var(--ff-d);font-size:1.1rem;font-weight:500}
+.fb-hdr-sub{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+.fb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border-bottom:.5px solid var(--border)}
+.fb-stat{padding:.8rem 1rem;background:var(--bg-s);text-align:center}
+.fb-stat-n{font-family:var(--ff-d);font-size:1.75rem;font-weight:400;color:var(--navy);line-height:1}
+.fb-stat-l{font-size:10px;color:var(--text-m);letter-spacing:.1em;text-transform:uppercase;margin-top:.15rem}
+.fb-conf{padding:.9rem 1.25rem;border-bottom:.5px solid var(--border)}
+.fb-conf-lbl{font-size:9.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-m);margin-bottom:.4rem}
+.fb-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+.fb-tag{background:var(--bg-s);border:.5px solid var(--border-str);padding:.22rem .65rem;font-size:12px;color:var(--text-s)}
+.fb-paths{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.fb-path{padding:1.2rem 1.4rem;background:var(--bg-c)}
+.fb-path-b{background:var(--bg-s)}
+.fb-path-lbl{font-size:9.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text-m);margin-bottom:.4rem}
+.fb-path-title{font-family:var(--ff-d);font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.5rem}
+.fb-path-body{font-size:13.5px;color:var(--text-s);line-height:1.72}
+.dist-table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+.dist-table th{background:var(--navy);color:#dfc070;font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:.65rem 1rem;text-align:left}
+.dist-table td{padding:.7rem 1rem;border-bottom:.5px solid var(--border);font-size:13.5px;color:var(--text-s)}
+.dist-table td:last-child{font-family:'Courier New',monospace;font-size:13px}
+.dist-table .d-total{background:rgba(13,32,64,.06);font-weight:500;color:var(--navy)}
+.dist-table .d-words td{font-size:12.5px;font-style:italic;color:var(--text-m);border-bottom:.5px solid var(--border)}
+.gold-div{max-width:1100px;margin:0 auto;padding:0 3rem}
+.gold-div-line{height:.5px;background:linear-gradient(to right,transparent,var(--gold-l),transparent);opacity:.45}
+.exhibit-bg{background:var(--bg-s);border-top:.5px solid var(--border-str);border-bottom:.5px solid var(--border-str)}
+.exhibit-in{max-width:1100px;margin:0 auto;padding:4.5rem 3rem}
+.ex-h{font-family:var(--ff-d);font-size:1.4rem;font-weight:500;color:var(--navy);margin-bottom:.3rem}
+.ex-sub{font-size:10.5px;color:var(--text-m);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2.25rem}
+.id-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;border:.5px solid var(--border-str)}
+.id-cell{padding:.85rem 1.1rem;background:var(--bg-c);border:.5px solid var(--border)}
+.id-cell.full{grid-column:1/-1}
+.id-lbl{font-size:9.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--text-m);margin-bottom:.25rem}
+.id-val{font-family:'Courier New',monospace;font-size:13px;color:var(--navy)}
+footer{max-width:1100px;margin:0 auto;padding:3rem;text-align:center}
+.foot-ents{font-family:var(--ff-d);font-size:15.5px;color:var(--text-s);line-height:2.1}
+.foot-line{width:240px;height:.5px;background:var(--border-str);margin:1.25rem auto}
+.foot-note{font-size:11.5px;color:var(--text-m);letter-spacing:.06em;line-height:1.75}
+@media(max-width:900px){.sec-inner{grid-template-columns:1fr;gap:2rem}.fb-paths{grid-template-columns:1fr}.dl-grid{grid-template-columns:1fr}.fb-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.nav{padding:.8rem 1.5rem}.nav-links{display:none}.hero,.wrap{padding:3rem 1.5rem}.dl-section,.exhibit-in,.footer{padding:2rem 1.5rem}.pipeline-step{grid-template-columns:30px 1fr auto}.ps-func{display:none}.fb-stats{grid-template-columns:1fr}.cd-note{display:none}}
+
+.sp-section{background:var(--navy);border-bottom:.5px solid rgba(196,160,64,.3);padding:4.5rem 3rem}
+.sp-inner{max-width:1100px;margin:0 auto}
+.sp-hdr{text-align:center;margin-bottom:3rem}
+.sp-eyebrow{font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(196,160,64,.55);margin-bottom:1rem}
+.sp-title{font-family:var(--ff-d);font-size:clamp(1.8rem,3.5vw,2.9rem);font-weight:300;color:#ede8d8;margin-bottom:1.1rem;line-height:1.15}
+.sp-lead{font-size:16px;font-weight:300;color:rgba(237,232,216,.68);max-width:800px;margin:0 auto;line-height:1.78}
+.sp-arch{margin:0 0 2.75rem;border:.5px solid rgba(196,160,64,.3)}
+.sp-qp{background:rgba(196,160,64,.1);border-bottom:2px solid #c4a040;padding:1.4rem 1.75rem}
+.sp-qp-lbl{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#c4a040;margin-bottom:.4rem}
+.sp-qp-ent{font-family:var(--ff-d);font-size:1.55rem;font-weight:500;color:#ede8d8;margin-bottom:.35rem}
+.sp-qp-desc{font-size:13.5px;color:rgba(237,232,216,.6);line-height:1.65}
+.sp-arrow{padding:.55rem 1.75rem;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(196,160,64,.45);text-align:center;background:rgba(0,0,0,.18);border-bottom:.5px solid rgba(255,255,255,.05)}
+.sp-hier-hdr{font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(237,232,216,.28);padding:.65rem 1.75rem;border-bottom:.5px solid rgba(255,255,255,.05);background:rgba(0,0,0,.15)}
+.sp-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:1rem;padding:.55rem 1.75rem;border-bottom:.5px solid rgba(255,255,255,.04);background:rgba(0,0,0,.12)}
+.sp-row:last-child{border-bottom:none}
+.sp-rk{font-family:var(--ff-d);font-size:1.15rem;font-weight:300;color:rgba(196,160,64,.28);text-align:center}
+.sp-rtxt{font-size:13.5px;color:rgba(237,232,216,.38)}
+.sp-out{font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#c05040;background:rgba(192,80,64,.12);padding:.18rem .55rem;white-space:nowrap}
+.sp-combo-lbl{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(196,160,64,.5);margin-bottom:1.1rem}
+.sp-combo{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-bottom:2.25rem;border:.5px solid rgba(196,160,64,.18)}
+.sp-card{background:rgba(255,255,255,.03);padding:1.3rem 1.4rem;border:.5px solid rgba(196,160,64,.08);transition:background .2s}
+.sp-card-num{font-family:'Courier New',monospace;font-size:9.5px;font-weight:500;letter-spacing:.18em;color:#c4a040;margin-bottom:.45rem}
+.sp-card-title{font-family:var(--ff-d);font-size:1.1rem;font-weight:500;color:#ede8d8;margin-bottom:.4rem}
+.sp-card-text{font-size:13px;color:rgba(237,232,216,.55);line-height:1.68;font-weight:300}
+.sp-stmt{border:.5px solid rgba(196,160,64,.22);padding:1.6rem 1.75rem;background:rgba(196,160,64,.04)}
+.sp-stmt-lbl{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(196,160,64,.55);margin-bottom:.65rem}
+.sp-stmt-txt{font-size:15px;color:rgba(237,232,216,.72);line-height:1.78;font-weight:300}
+.sp-stmt-txt strong{color:#c4a040;font-weight:400}
+@media(max-width:900px){.sp-combo{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.sp-section{padding:3rem 1.5rem}.sp-combo{grid-template-columns:1fr}}
+
+
+/* EXPANDED SECTIONS */
+.cite-block{background:var(--bg-c);border:.5px solid var(--border);padding:.7rem 1rem;margin:.75rem 0;font-size:12.5px;color:var(--text-m);font-style:italic;font-family:var(--ff-mono)}
+.cite-ref{font-size:10px;color:var(--gold-m);font-weight:500;margin-right:.5rem;font-style:normal}
+.law-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;margin:1.5rem 0;border:.5px solid var(--border-str)}
+.law-card{padding:1.1rem 1.25rem;background:var(--bg-c);border:.5px solid var(--border)}
+.law-card.prohibited{border-left:3px solid rgba(160,48,32,.6)}
+.law-card.permitted{border-left:3px solid rgba(26,92,32,.5)}
+.law-card.neutral{border-left:3px solid var(--gold-l)}
+.lc-tag{font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.35rem}
+.law-card.prohibited .lc-tag{color:#a03020}
+.law-card.permitted .lc-tag{color:var(--green)}
+.law-card.neutral .lc-tag{color:var(--gold-m)}
+.lc-title{font-family:var(--ff-d);font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+.lc-text{font-size:13.5px;color:var(--text-s);line-height:1.7}
+.path-compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:1.5rem 0;border:.5px solid var(--border-str)}
+.pc-col{padding:1.25rem 1.4rem}
+.pc-bad{background:#fef8f7;border-left:3px solid rgba(160,48,32,.5)}
+.pc-good{background:#f5faf5;border-left:3px solid rgba(26,92,32,.5)}
+.pc-head{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:.5px solid var(--border)}
+.pc-bad .pc-head{color:#a03020;border-color:rgba(160,48,32,.2)}
+.pc-good .pc-head{color:var(--green);border-color:rgba(26,92,32,.2)}
+.pc-item{display:flex;align-items:flex-start;gap:.55rem;padding:.38rem 0;border-bottom:.5px solid var(--border);font-size:13.5px;color:var(--text-s);line-height:1.6}
+.pc-item:last-child{border-bottom:none}
+.pc-mark{flex-shrink:0;margin-top:1px;font-size:13px}
+.pc-bad .pc-mark{color:#c05040}
+.pc-good .pc-mark{color:var(--green)}
+.fb-timeline{display:flex;flex-direction:column;gap:0;margin:1.5rem 0;border:.5px solid var(--border-str)}
+.fbt-row{display:grid;grid-template-columns:160px 1fr;border-bottom:.5px solid var(--border)}
+.fbt-row:last-child{border-bottom:none}
+.fbt-date{background:var(--bg-s);padding:.9rem 1.1rem;font-family:var(--ff-mono);font-size:11px;color:var(--gold);font-weight:500;display:flex;align-items:flex-start;border-right:.5px solid var(--border)}
+.fbt-event{padding:.9rem 1.2rem;font-size:14px;color:var(--text-s);line-height:1.65}
+.fbt-event strong{color:var(--navy);font-weight:500;display:block;margin-bottom:.18rem}
+.fbt-row.fbt-key .fbt-date{color:var(--navy);background:rgba(138,110,24,.08);font-weight:600}
+.fbt-row.fbt-key .fbt-event{background:rgba(138,110,24,.03)}
+.regulator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;margin:1.5rem 0;border:.5px solid var(--border-str)}
+.reg-card{background:var(--bg-c);padding:1rem 1.1rem;border:.5px solid var(--border)}
+.reg-label{font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-m);margin-bottom:.3rem}
+.reg-name{font-family:var(--ff-d);font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.22rem}
+.reg-status{font-size:12.5px;color:var(--text-s);line-height:1.6}
+.reg-badge{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.18rem .55rem;margin-top:.35rem}
+.reg-badge.active{background:rgba(26,92,32,.08);color:var(--green);border:.5px solid rgba(26,92,32,.3)}
+.reg-badge.pending{background:rgba(138,110,24,.08);color:var(--gold-m);border:.5px solid var(--border-str)}
+.basel-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:13.5px}
+.basel-table th{background:var(--bg-s);color:var(--navy);font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:.65rem 1rem;text-align:left;border-bottom:.5px solid var(--border-str)}
+.basel-table td{padding:.7rem 1rem;border-bottom:.5px solid var(--border);vertical-align:top;color:var(--text-s)}
+.basel-table .mono{font-family:'Courier New',monospace;font-size:13px;color:var(--navy)}
+.rw-high{color:#a03020;font-weight:600}
+.rw-zero{color:var(--green);font-weight:600}
+.debt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;margin:1.5rem 0;border:.5px solid var(--border-str)}
+.debt-card{background:var(--bg-c);padding:1.1rem 1.25rem;border:.5px solid var(--border);text-align:center}
+.debt-num{font-family:var(--ff-d);font-size:2.4rem;font-weight:300;color:var(--navy);line-height:1;margin-bottom:.3rem}
+.debt-label{font-size:10.5px;color:var(--text-s);letter-spacing:.08em;line-height:1.5}
+.final-block{background:var(--bg-s);border:.5px solid var(--border-str);border-left:3px solid var(--gold-l);border-right:3px solid var(--gold-l);padding:2rem 2.25rem;margin:2rem 0;text-align:center}
+.fb-quote-block{background:var(--bg-s);border:.5px solid var(--border-str);border-left:3px solid var(--border-str);padding:1.1rem 1.4rem;margin:1.25rem 0}
+.fbq-source{font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-m);margin-bottom:.4rem}
+.fbq-text{font-size:15px;color:var(--text);line-height:1.72;font-style:italic}
+.fbq-attr{font-size:12px;color:var(--text-m);margin-top:.35rem;font-style:normal}
+@media(max-width:768px){.path-compare{grid-template-columns:1fr}.fbt-row{grid-template-columns:1fr}.fbt-date{font-size:10px}.law-grid{grid-template-columns:1fr}.basel-table{font-size:12px}}
+
+@media print{
+/* ── Hide screen-only chrome ── */
+.cd-bar,.nav,.dl-section,.lang-toggle,.dl-btn{display:none!important}
+
+/* ── Page geometry ── */
+@page{
+  size:A4 portrait;
+  margin:2cm 2.2cm 2.8cm 2.2cm;
+}
+@page{
+  @bottom-left{
+    content:"FLAME Protocol — Sovereign Settlement White Paper — Confidential — May 27, 2026";
+    font-family:'Courier New',monospace;
+    font-size:7pt;
+    color:#888;
+  }
+  @bottom-right{
+    content:"Page " counter(page) " of " counter(pages);
+    font-size:7.5pt;
+    color:#666;
+    font-family:serif;
+  }
+  @top-right{
+    content:"CUSIP 85453P206  ·  ISIN US85453P2060  ·  Genesis Ledger Choice of Law";
+    font-family:'Courier New',monospace;
+    font-size:6.5pt;
+    color:#aaa;
+  }
+}
+@page:first{
+  @top-right{content:''}
+}
+
+/* ── Base type ── */
+body{background:#fff!important;color:#19150c!important;font-size:10.5pt;line-height:1.65}
+a{color:inherit;text-decoration:none}
+p{orphans:3;widows:3}
+
+/* ── Preserve color fills exactly ── */
+*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+
+/* ── Section page breaks — force each Article to start fresh ── */
+#s2,#s3,#s4,#s5,#s6{break-before:page}
+.closing-bg{break-before:page}
+.exhibit-bg{break-before:page}
+
+/* ── Keep blocks together — never split mid-element ── */
+.wrap{break-inside:avoid}
+.sec-inner{break-inside:avoid}
+.pt{break-inside:avoid}
+.pts > .pt + .pt{break-before:auto}
+.pipeline{break-inside:avoid}
+.ps{break-inside:avoid}
+.fb-block{break-inside:avoid}
+.fb-paths{break-inside:avoid}
+.atomic-note{break-inside:avoid}
+.ten-pt{break-inside:avoid}
+.ten-pts{break-inside:avoid-page}
+.protect-list li{break-inside:avoid}
+.kv-table{break-inside:avoid}
+.kv-table tr{break-inside:avoid}
+.vault-table tr{break-inside:avoid}
+.poc-table tr{break-inside:avoid}
+.dist-table tr{break-inside:avoid}
+.rank-table tr{break-inside:avoid}
+.cap-table tr{break-inside:avoid}
+.qp-table tr{break-inside:avoid}
+.dl-card{break-inside:avoid}
+.payee{break-inside:avoid}
+.rail-card{break-inside:avoid}
+.id-cell{break-inside:avoid}
+.stat-block{break-inside:avoid}
+
+/* ── Headings stay glued to first line of their section ── */
+.sec-head{break-after:avoid}
+.pt-lbl{break-after:avoid}
+.ten-pt-title{break-after:avoid}
+.ex-h{break-after:avoid}
+.fb-path-title{break-after:avoid}
+
+/* ── Grid → single column for narrow print page ── */
+.sec-inner{display:block}
+.sec-num{font-size:36pt;margin-bottom:.2rem}
+.dl-grid{display:block}
+.fb-paths{display:block}
+.fb-stats{display:flex;flex-direction:row}
+
+/* ── Overflow tables — allow scroll-table to render fully ── */
+.scroll-table,.cap-wrap{overflow:visible!important}
+.rank-table,.cap-table{min-width:unset!important;font-size:8pt}
+.cap-table th,.cap-table td{padding:.35rem .45rem}
+.rank-table th,.rank-table td{padding:.35rem .6rem}
+
+/* ── Verify links — show text, strip interactive styling ── */
+.verify-link{display:none}
+
+/* ── Closing statement ── */
+.closing-bg{background:var(--navy)!important}
+.closing-inner{padding:3rem 2rem}
+
+/* ── Remove sticky that breaks PDF ── */
+.hero{border-bottom:.5px solid #b8952a;padding:3rem 2.2rem 2.5rem}
+.gold-div{max-width:none;padding:0}
+.exhibit-in{padding:3rem 2.2rem}
+footer{padding:2rem 2.2rem}
+.wrap{padding:3rem 2.2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cd-bar">
+  <span class="cd-label" id="cd-label">New York Operative Date · June 3, 2026</span>
+  <span class="cd-timer" id="cd-timer">—</span>
+  <span class="cd-note" id="cd-note">UCC Article 12 — New York operative date</span>
+</div>
+
+<nav class="nav">
+  <div class="nav-brand">FLAME Protocol</div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#s1" data-en="I — Framework" data-pt="I — Estrutura">I — Framework</a></li>
+      <li><a href="#s2" data-en="II — Settlement" data-pt="II — Liquidação">II — Settlement</a></li>
+      <li><a href="#s3" data-en="III — Distribution" data-pt="III — Distribuição">III — Distribution</a></li>
+      <li><a href="#s4" data-en="IV — Resolution 561" data-pt="IV — Resolução 561">IV — Resolution 561</a></li>
+      <li><a href="#s5" data-en="V — Fireblocks" data-pt="V — Fireblocks">V — Fireblocks</a></li>
+      <li><a href="#s6" data-en="VI — Basel III" data-pt="VI — Basileia III">VI — Basel III</a></li>
+      <li><a href="#s7" data-en="VII — Zero Debt" data-pt="VII — Dívida Zero">VII — Zero Debt</a></li>
+      <li><a href="#exhibit" data-en="Exhibit" data-pt="Anexo">Exhibit</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn" id="btn-pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="hero-eyebrow" data-en="Institutional Custody Vault Statement — Sovereign Disclosure" data-pt="Demonstrativo de Custódia Institucional — Divulgação Soberana">Institutional Custody Vault Statement — Sovereign Disclosure</p>
+  <h1 class="hero-title">
+    FLAME Protocol<br>
+    <em data-en="Atomic Settlement — Sovereign White Paper" data-pt="Liquidação Atômica — Livro Branco Soberano">Atomic Settlement — Sovereign White Paper</em>
+  </h1>
+  <p class="hero-sub" data-en="The FLAME Protocol Electronic Trust Registry is the constitutional ledger of record for all Controllable Electronic Record positions documented herein. Settlement executes atomically through Fireblocks Trust Company — no correspondent banking, no clearing intermediation, no delay." data-pt="O Registro Eletrônico de Confiança do FLAME Protocol é o livro-razão constitucional de registro para todas as posições de Registro Eletrônico Controlável documentadas aqui. A liquidação é executada atomicamente pela Fireblocks Trust Company — sem bancos correspondentes, sem intermediação de compensação, sem atraso.">The FLAME Protocol Electronic Trust Registry is the constitutional ledger of record for all Controllable Electronic Record positions documented herein. Settlement executes atomically through Fireblocks Trust Company — no correspondent banking, no clearing intermediation, no delay.</p>
+  <div class="hero-rule"></div>
+  <div class="hero-badge" data-en="Prepared: May 27, 2026 · Addressed to the Federative Republic of Brazil" data-pt="Preparado: 27 de maio de 2026 · Endereçado à República Federativa do Brasil">Prepared: May 27, 2026 · Addressed to the Federative Republic of Brazil</div>
+</header>
+
+<section class="sp-section">
+<div class="sp-inner">
+  <div class="sp-hdr">
+    <div class="sp-eyebrow" data-en="UCC §12-104 · §12-105 · The Combination That Has Never Existed Before" data-pt="UCC §12-104 · §12-105 · A Combinação Que Nunca Existiu Antes">UCC §12-104 · §12-105 · The Combination That Has Never Existed Before</div>
+    <div class="sp-title" data-en="Super Priority and the Unprecedented Combination" data-pt="Super Prioridade e a Combinação Sem Precedentes">Super Priority and the Unprecedented Combination</div>
+    <p class="sp-lead" data-en="This is not a priority rule. It is an extinguishment rule. The BCB does not compete for priority position against prior creditors — it takes the asset entirely free of all prior property claims. Those claims do not become junior. They cease to exist. No instrument in the history of US commercial law has assembled this combination in a single perfected, live, transferable Controllable Electronic Record." data-pt="Esta não é uma regra de prioridade. É uma regra de extinção. O BCB não compete por posição de prioridade contra credores anteriores — adquire o ativo completamente livre de todas as reivindicações de propriedade anteriores. Essas reivindicações não se tornam subordinadas. Elas deixam de existir. Nenhum instrumento na história do direito comercial americano reuniu esta combinação em um único Registro Eletrônico Controlável perfeiçoado, ativo e transferível.">This is not a priority rule. It is an extinguishment rule. The BCB does not compete for priority position against prior creditors — it takes the asset entirely free of all prior property claims. Those claims do not become junior. They cease to exist. No instrument in the history of US commercial law has assembled this combination in a single perfected, live, transferable Controllable Electronic Record.</p>
+  </div>
+
+  <div class="sp-arch">
+    <div class="sp-qp">
+      <div class="sp-qp-lbl" data-en="Qualifying Purchaser — UCC §12-104 — Operates Above the Entire Priority Hierarchy" data-pt="Comprador Qualificado — UCC §12-104 — Opera Acima de Toda a Hierarquia de Prioridade">Qualifying Purchaser — UCC §12-104 — Operates Above the Entire Priority Hierarchy</div>
+      <div class="sp-qp-ent" data-en="BCB — After Accepting This Transfer — First Central Bank in the World" data-pt="BCB — Após Aceitar Esta Transferência — Primeiro Banco Central do Mundo">BCB — After Accepting This Transfer — First Central Bank in the World</div>
+      <p class="sp-qp-desc" data-en="Takes the Controllable Electronic Record free of any claim of a property right (§12-104(e)). Exclusive control under §12-105 — all three prongs — established simultaneously by operation of law at the moment of vault-to-vault transfer. No filing. No registration. No court order required." data-pt="Adquire o Registro Eletrônico Controlável livre de qualquer reivindicação de direito de propriedade (§12-104(e)). Controle exclusivo sob §12-105 — todos os três requisitos — estabelecido simultaneamente por operação de lei no momento da transferência de cofre a cofre. Sem registro. Sem ordem judicial.">Takes the Controllable Electronic Record free of any claim of a property right (§12-104(e)). Exclusive control under §12-105 — all three prongs — established simultaneously by operation of law at the moment of vault-to-vault transfer. No filing. No registration. No court order required.</p>
+    </div>
+    <div class="sp-arrow" data-en="↕  Extinguishment — not subordination — not priority — the prior claims cease to exist  ↕" data-pt="↕  Extinção — não subordinação — não prioridade — as reivindicações anteriores deixam de existir  ↕">↕  Extinguishment — not subordination — not priority — the prior claims cease to exist  ↕</div>
+    <div class="sp-hier-hdr" data-en="Traditional Priority Hierarchy — Rendered Inoperative Upon Qualifying Purchaser Transfer" data-pt="Hierarquia Tradicional de Prioridade — Tornada Inoperante Após Transferência ao Comprador Qualificado">Traditional Priority Hierarchy — Rendered Inoperative Upon Qualifying Purchaser Transfer</div>
+    <div class="sp-row"><span class="sp-rk">1</span><span class="sp-rtxt" data-en="Perfected Secured Creditor — previously held first-priority security interest" data-pt="Credor Garantido Perfeiçoado — detinha interesse de garantia de primeira prioridade">Perfected Secured Creditor — previously held first-priority security interest</span><span class="sp-out" data-en="Extinguished" data-pt="Extinto">Extinguished</span></div>
+    <div class="sp-row"><span class="sp-rk">2</span><span class="sp-rtxt" data-en="Lien Creditor — judgment lien, tax lien, or statutory lien" data-pt="Credor com Penhor — penhor judicial, fiscal ou estatutário">Lien Creditor — judgment lien, tax lien, or statutory lien</span><span class="sp-out" data-en="Extinguished" data-pt="Extinto">Extinguished</span></div>
+    <div class="sp-row"><span class="sp-rk">3</span><span class="sp-rtxt" data-en="Unperfected Security Interest — subordinated under Article 9" data-pt="Interesse de Garantia Não Perfeiçoado — subordinado sob o Artigo 9">Unperfected Security Interest — subordinated under Article 9</span><span class="sp-out" data-en="Extinguished" data-pt="Extinto">Extinguished</span></div>
+    <div class="sp-row"><span class="sp-rk">4</span><span class="sp-rtxt" data-en="Prior Purchaser Without Control — any purchaser who did not obtain §12-105 control" data-pt="Comprador Anterior Sem Controle — qualquer comprador que não obteve controle §12-105">Prior Purchaser Without Control — any purchaser who did not obtain §12-105 control</span><span class="sp-out" data-en="Extinguished" data-pt="Extinto">Extinguished</span></div>
+    <div class="sp-row"><span class="sp-rk">5</span><span class="sp-rtxt" data-en="Foreign Judgment Creditor — attempting attachment under recognition proceeding" data-pt="Credor de Sentença Estrangeira — tentando penhora em processo de reconhecimento">Foreign Judgment Creditor — attempting attachment under recognition proceeding</span><span class="sp-out" data-en="Extinguished" data-pt="Extinto">Extinguished</span></div>
+    <div class="sp-row"><span class="sp-rk">6</span><span class="sp-rtxt" data-en="Bankruptcy Trustee — asserting avoidance powers against the transferor" data-pt="Administrador de Falência — exercendo poderes de anulação contra o transferidor">Bankruptcy Trustee — asserting avoidance powers against the transferor</span><span class="sp-out" data-en="Extinguished" data-pt="Extinto">Extinguished</span></div>
+  </div>
+
+  <div class="sp-combo-lbl" data-en="The Unprecedented Combination — Six Elements Never Before Assembled in a Single Instrument" data-pt="A Combinação Sem Precedentes — Seis Elementos Nunca Antes Reunidos em um Único Instrumento">The Unprecedented Combination — Six Elements Never Before Assembled in a Single Instrument</div>
+  <div class="sp-combo">
+    <div class="sp-card">
+      <div class="sp-card-num">§12-104 · Extinguishment</div>
+      <div class="sp-card-title" data-en="Statutory Prior-Claim Extinguishment" data-pt="Extinção Estatutária de Reivindicações Anteriores">Statutory Prior-Claim Extinguishment</div>
+      <p class="sp-card-text" data-en="Not a priority rule — an extinguishment rule. Prior property claims do not become junior to the qualifying purchaser. They cease to exist entirely by operation of state law. This is the holder-in-due-course doctrine applied to digital assets — and no other central bank has accessed it." data-pt="Não é uma regra de prioridade — é uma regra de extinção. Reivindicações de propriedade anteriores não se tornam subordinadas ao comprador qualificado. Elas deixam de existir inteiramente por operação da lei estadual.">Not a priority rule — an extinguishment rule. Prior property claims do not become junior. They cease to exist by operation of state law. The holder-in-due-course doctrine applied to digital assets — and no other central bank has accessed it.</p>
+    </div>
+    <div class="sp-card">
+      <div class="sp-card-num">§12-105 · Binary Control</div>
+      <div class="sp-card-title" data-en="Absolute Exclusive Control" data-pt="Controle Exclusivo Absoluto">Absolute Exclusive Control</div>
+      <p class="sp-card-text" data-en="Control under §12-105 is binary — you either satisfy all three prongs simultaneously (benefit, exclusive prevention, exclusive transfer) or you have zero control. No partial control. No subordinated control. No impaired control. The moment the CER arrives in the BCB's vault, all three prongs are satisfied by operation of law." data-pt="O controle sob §12-105 é binário — você satisfaz todos os três requisitos simultaneamente (benefício, prevenção exclusiva, transferência exclusiva) ou não tem controle algum. Sem controle parcial. Sem controle subordinado. No momento em que o CER chega ao cofre do BCB, os três requisitos são satisfeitos por operação de lei.">Control under §12-105 is binary — all three prongs simultaneously (benefit, exclusive prevention, exclusive transfer) or zero control. No partial. No subordinated. No impaired. The moment the CER arrives in the BCB's vault, all three prongs are satisfied by operation of law.</p>
+    </div>
+    <div class="sp-card">
+      <div class="sp-card-num">Savvy → Fireblocks · 2-Step</div>
+      <div class="sp-card-title" data-en="Atomic Settlement — Final in Seconds" data-pt="Liquidação Atômica — Final em Segundos">Atomic Settlement — Final in Seconds</div>
+      <p class="sp-card-text" data-en="Simultaneous, indivisible delivery and payment in a single execution instruction. Savvy initiates. Fireblocks Trust Company executes. No correspondent banking chain. No clearinghouse. No T+2 delay. No stablecoin conversion. Settlement finality is statutory — not a software promise, not an operational guarantee — state law." data-pt="Entrega e pagamento simultâneos e indivisíveis em uma única instrução de execução. Savvy inicia. Fireblocks Trust Company executa. Sem cadeia de bancos correspondentes. Sem câmara de compensação. Sem atraso T+2. A finalidade da liquidação é estatutária — não uma promessa de software — lei estadual.">Simultaneous, indivisible delivery and payment. Savvy initiates. Fireblocks Trust Company executes. No correspondent banking. No clearinghouse. No T+2. Settlement finality is statutory — not a software promise — state law.</p>
+    </div>
+    <div class="sp-card">
+      <div class="sp-card-num">NYDFS · USD 5T Volume</div>
+      <div class="sp-card-title" data-en="NYDFS-Regulated Institutional Custody" data-pt="Custódia Institucional Regulada pela NYDFS">NYDFS-Regulated Institutional Custody</div>
+      <p class="sp-card-text" data-en="Fireblocks Trust Company is regulated by the New York Department of Financial Services — the same regulator that supervises the largest banks in the United States. USD 5 Trillion in annual transfer volume. MPC multi-party computation custody. The same infrastructure deployed by BNY Mellon and Braza Bank. Not a startup. Not a pilot. Operational at scale." data-pt="Fireblocks Trust Company é regulada pelo Departamento de Serviços Financeiros de Nova York — o mesmo regulador que supervisiona os maiores bancos dos EUA. USD 5 Trilhões em volume anual de transferências. Custódia MPC de computação multipartidária. A mesma infraestrutura do BNY Mellon e Braza Bank.">Fireblocks Trust Company — New York Department of Financial Services regulated. USD 5 Trillion annual transfer volume. MPC custody. BNY Mellon and Braza Bank infrastructure. Not a pilot. Operational at institutional scale.</p>
+    </div>
+    <div class="sp-card">
+      <div class="sp-card-num">Ethereum Mainnet · ETR Genesis</div>
+      <div class="sp-card-title" data-en="On-Chain Verifiable — Immutable Ledger" data-pt="Verificável On-Chain — Livro-Razão Imutável">On-Chain Verifiable — Immutable Ledger</div>
+      <p class="sp-card-text" data-en="Every position, every transfer, every proof of claim is independently verifiable on Ethereum Mainnet. The Electronic Trust Registry is immutable at Genesis Block 23,878,199 — October 15, 2025. Five vault positions. Eight collateral backing claims. One transfer transaction. All verifiable at the contract addresses in this white paper. No counterparty controls the ledger." data-pt="Cada posição, cada transferência, cada prova de reivindicação é verificável de forma independente na Rede Principal Ethereum. O Registro Eletrônico de Confiança é imutável no Bloco Gênese 23.878.199. Cinco posições de cofre. Oito reivindicações de garantia. Tudo verificável nos endereços de contratos neste livro branco.">Every position, transfer, and proof of claim independently verifiable on Ethereum Mainnet. ETR immutable at Genesis Block 23,878,199. Five vault positions. Eight collateral claims. All verifiable at the contract addresses in this white paper.</p>
+    </div>
+    <div class="sp-card">
+      <div class="sp-card-num">Treaty Framework · Sovereign Register</div>
+      <div class="sp-card-title" data-en="Treaty-Backed Sovereign Standing" data-pt="Legitimidade Soberana Respaldada por Tratado">Treaty-Backed Sovereign Standing</div>
+      <p class="sp-card-text" data-en="The Treaty framework establishes the sovereign standing required. This transaction cannot be entered in an individual or purely commercial capacity — the standing must match the register. This combination of legal extinguishment, custody, and standing is not replicable through any commercial instrument, any CBDC pilot, or any conventional wire transfer mechanism currently available to any other central bank." data-pt="O arcabouço do Tratado estabelece a legitimidade soberana exigida. Esta transação não pode ser realizada em capacidade individual ou puramente comercial. Esta combinação de extinção jurídica, custódia e legitimidade não é replicável por nenhum instrumento comercial, piloto CBDC ou mecanismo convencional disponível para qualquer outro banco central.">The Treaty framework establishes the sovereign standing required. This transaction cannot be entered in a commercial capacity. This combination is not replicable through any CBDC pilot, commercial instrument, or wire transfer mechanism available to any other central bank.</p>
+    </div>
+  </div>
+
+  <div class="sp-stmt">
+    <div class="sp-stmt-lbl" data-en="Why This Has Never Been Done Before — The Complete Assessment" data-pt="Por Que Isso Nunca Foi Feito Antes — A Avaliação Completa">Why This Has Never Been Done Before — The Complete Assessment</div>
+    <p class="sp-stmt-txt" data-en="Each element of this framework exists independently in other legal or financial contexts. <strong>Statutory extinguishment</strong> exists in negotiable instruments law — but not for digital assets. <strong>Institutional MPC custody</strong> exists at Fireblocks — but not combined with Article 12 perfected control. <strong>Atomic settlement</strong> is achievable in blockchain infrastructure — but not with NYDFS-regulated custody and sovereign standing simultaneously. <strong>Treaty-backed sovereign transfers</strong> exist in international finance — but not with on-chain verifiable, bytecode-immutable CER positions. The FLAME Protocol is the first framework to assemble all six in a single perfected Controllable Electronic Record — with a live five-vault position totaling Forty-One Trillion Seven Hundred Twenty-Nine Billion Nine Hundred Ninety-Nine Million Eight Hundred Seventy-Two Thousand Five Hundred and Zero Cents (41,929,999,872,500.00USD) plus Five Hundred Seventy-Two Billion Three Hundred Thirty-Three Million Three Hundred Thirty-Three Thousand Three Hundred Forty and Zero Cents (572,333,333,340.00EUR) — verifiable on Ethereum Mainnet today, seven months before the New York operative date." data-pt="Cada elemento deste arcabouço existe independentemente em outros contextos jurídicos ou financeiros. <strong>A extinção estatutária</strong> existe no direito dos instrumentos negociáveis — mas não para ativos digitais. <strong>A custódia institucional MPC</strong> existe no Fireblocks — mas não combinada com controle perfeiçoado do Artigo 12. <strong>A liquidação atômica</strong> é alcançável em infraestrutura blockchain — mas não com custódia regulada pela NYDFS e legitimidade soberana simultaneamente. O FLAME Protocol é o primeiro arcabouço a reunir todos os seis em um único Registro Eletrônico Controlável perfeiçoado — com uma posição ativa de cinco cofres verificável na Rede Principal Ethereum hoje, sete meses antes da data operacional de Nova York.">Each element exists independently in other contexts. <strong>Statutory extinguishment</strong> exists in negotiable instruments law — but not for digital assets. <strong>Institutional MPC custody</strong> exists at Fireblocks — but not combined with Article 12 perfected control. <strong>Atomic settlement</strong> is achievable in blockchain infrastructure — but not with NYDFS-regulated custody and sovereign standing simultaneously. <strong>Treaty-backed sovereign transfers</strong> exist in international finance — but not with on-chain verifiable, bytecode-immutable CER positions. The FLAME Protocol is the first framework to assemble all six in a single perfected Controllable Electronic Record — with a live five-vault position totaling Forty-One Trillion Seven Hundred Twenty-Nine Billion Nine Hundred Ninety-Nine Million Eight Hundred Seventy-Two Thousand Five Hundred and Zero Cents (41,929,999,872,500.00USD) plus Five Hundred Seventy-Two Billion Three Hundred Thirty-Three Million Three Hundred Thirty-Three Thousand Three Hundred Forty and Zero Cents (572,333,333,340.00EUR) — verifiable on Ethereum Mainnet today.</p>
+  </div>
+</div>
+</section>
+
+<section class="dl-section">
+  <div class="dl-inner">
+    <div class="dl-heading" data-en="Download This White Paper" data-pt="Baixar Este Livro Branco">Download This White Paper</div>
+    <p class="dl-sub" data-en="Two language versions — pre-set, named, and described below" data-pt="Duas versões de idioma — pré-configuradas, nomeadas e descritas abaixo">Two language versions — pre-set, named, and described below</p>
+    <div class="dl-grid">
+      <div class="dl-card">
+        <div class="dl-card-title" data-en="English — Sovereign Settlement White Paper" data-pt="Inglês — Livro Branco de Liquidação Soberana">English — Sovereign Settlement White Paper</div>
+        <p class="dl-card-desc" data-en="Complete institutional custody vault statement and atomic settlement disclosure addressed to the Federative Republic of Brazil. Establishes the FLAME Protocol Electronic Trust Registry as constitutional governing instrument, documents five on-chain vault positions, presents the two-step atomic settlement pipeline through Fireblocks Trust Company, and sets forth the 60/40 distribution schedule with precise figures derived from the vault statement of record." data-pt="Demonstrativo completo de custódia institucional e divulgação de liquidação atômica endereçada à República Federativa do Brasil. Estabelece o Registro Eletrônico de Confiança do FLAME Protocol como instrumento regulador constitucional, documenta cinco posições de cofre on-chain, apresenta o pipeline de liquidação atômica em duas etapas pela Fireblocks Trust Company e expõe o cronograma de distribuição 60/40 com valores precisos derivados do demonstrativo de custódia de registro.">Complete institutional custody vault statement and atomic settlement disclosure addressed to the Federative Republic of Brazil. Establishes the FLAME Protocol Electronic Trust Registry as constitutional governing instrument, documents five on-chain vault positions, presents the two-step atomic settlement pipeline through Fireblocks Trust Company, and sets forth the 60/40 distribution schedule with precise figures derived from the vault statement of record.</p>
+        <ul class="dl-items">
+          <li data-en="Governing instrument: FLAME Protocol ETR — Genesis Ledger Choice of Law" data-pt="Instrumento regulador: ETR do FLAME Protocol — Escolha de Lei do Livro-Razão Gênese">Governing instrument: FLAME Protocol ETR — Genesis Ledger Choice of Law</li>
+          <li data-en="Settlement: Two-step atomic — Savvy redemption interface → Fireblocks Trust Company" data-pt="Liquidação: Atômica em duas etapas — interface Savvy → Fireblocks Trust Company">Settlement: Two-step atomic — Savvy redemption interface → Fireblocks Trust Company</li>
+          <li data-en="Brazilian counterparty allocation: 25,157,999,923,500.00USD + 343,400,000,004.00EUR" data-pt="Alocação à contraparte brasileira: 25.157.999.923.500,00USD + 343.400.000.004,00EUR">Brazilian counterparty allocation: 25,157,999,923,500.00USD + 343,400,000,004.00EUR</li>
+        </ul>
+        <button class="dl-btn" onclick="downloadAs('en')" data-en="Download — English (HTML)" data-pt="Download — English (HTML)">Download — English (HTML)</button>
+      </div>
+      <div class="dl-card">
+        <div class="dl-card-title" data-en="Português — Livro Branco de Liquidação Soberana" data-pt="Português — Livro Branco de Liquidação Soberana">Português — Livro Branco de Liquidação Soberana</div>
+        <p class="dl-card-desc" data-en="Versão completa em português do demonstrativo de custódia institucional e divulgação de liquidação atômica. Endereçado ao Banco Central do Brasil, Banco do Brasil e à Entidade Soberana. Todos os valores derivados do demonstrativo de custódia de registro em vigor. Pronto para distribuição às três contrapartes brasileiras identificadas." data-pt="Versão completa em português do demonstrativo de custódia institucional e divulgação de liquidação atômica. Endereçado ao Banco Central do Brasil, Banco do Brasil e à Entidade Soberana. Todos os valores derivados do demonstrativo de custódia de registro em vigor. Pronto para distribuição às três contrapartes brasileiras identificadas.">Versão completa em português do demonstrativo de custódia institucional e divulgação de liquidação atômica. Endereçado ao Banco Central do Brasil, Banco do Brasil e à Entidade Soberana. Todos os valores derivados do demonstrativo de custódia de registro em vigor.</p>
+        <ul class="dl-items">
+          <li data-en="Instrumento regulador: ETR do FLAME Protocol — Escolha de Lei do Livro-Razão Gênese" data-pt="Instrumento regulador: ETR do FLAME Protocol — Escolha de Lei do Livro-Razão Gênese">Instrumento regulador: ETR — Escolha de Lei do Livro-Razão Gênese</li>
+          <li data-en="Liquidação atômica: interface Savvy → Fireblocks Trust Company — sem intermediários" data-pt="Liquidação atômica: interface Savvy → Fireblocks Trust Company — sem intermediários">Liquidação atômica: Savvy → Fireblocks Trust Company</li>
+          <li data-en="Arquivo: FLAME-Protocol-Liquidacao-Soberana-PT.html" data-pt="Arquivo: FLAME-Protocol-Liquidacao-Soberana-PT.html">Arquivo: FLAME-Protocol-Liquidacao-Soberana-PT.html</li>
+        </ul>
+        <button class="dl-btn" onclick="downloadAs('pt')" data-en="Baixar — Português (HTML)" data-pt="Baixar — Português (HTML)">Baixar — Português (HTML)</button>
+      </div>
+    </div>
+    <p class="dl-note" data-en="To produce a formatted PDF: open the downloaded file in any browser · File → Print → Save as PDF · enable Background graphics" data-pt="Para produzir um PDF formatado: abra o arquivo em qualquer navegador · Arquivo → Imprimir → Salvar como PDF · ative Gráficos de fundo">To produce a formatted PDF: open the downloaded file in any browser · File → Print → Save as PDF · enable Background graphics</p>
+  </div>
+</section>
+
+<!-- ══════════ ARTICLE I — GOVERNING INSTRUMENT & LEGAL FRAMEWORK ══════════ -->
+<section id="s1">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">I</div>
+      <div class="sec-label" data-en="Addressed To" data-pt="Endereçado A">Addressed To</div>
+      <div class="sec-recip">Banco Central do Brasil</div>
+      <div class="sec-type" data-en="Regulatory Sovereign" data-pt="Soberano Regulatório">Regulatory Sovereign</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article I — Governing Instrument and Legal Framework" data-pt="Artigo I — Instrumento Regulador e Estrutura Jurídica">Article I — Governing Instrument and Legal Framework</h2>
+      <p class="sec-lead" data-en="The FLAME Protocol Electronic Trust Registry (ETR), deployed on Ethereum Mainnet at Genesis Block 23,878,199 (October 15, 2025), is the governing instrument for every Controllable Electronic Record position documented in this disclosure. The ETR constitutes the Flame Vault Ledger — the constitutional ledger of record. No external statutory framework supersedes the ETR as governing authority over the Controllable Electronic Records registered therein. Genesis Ledger Choice of Law governs." data-pt="O Registro Eletrônico de Confiança do FLAME Protocol (ETR), implantado na Rede Principal Ethereum no Bloco Gênese 23.878.199 (15 de outubro de 2025), é o instrumento regulador para cada posição de Registro Eletrônico Controlável documentada nesta divulgação. O ETR constitui o Flame Vault Ledger — o livro-razão constitucional de registro. Nenhuma estrutura estatutária externa supera o ETR como autoridade reguladora sobre os Registros Eletrônicos Controláveis nele registrados. A Escolha de Lei do Livro-Razão Gênese rege.">The FLAME Protocol Electronic Trust Registry (ETR), deployed on Ethereum Mainnet at Genesis Block 23,878,199 (October 15, 2025), is the governing instrument for every Controllable Electronic Record position documented in this disclosure. The ETR constitutes the Flame Vault Ledger — the constitutional ledger of record. No external statutory framework supersedes the ETR as governing authority over the Controllable Electronic Records registered therein. Genesis Ledger Choice of Law governs.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Governing Instrument — ETR" data-pt="Instrumento Regulador — ETR">Governing Instrument — ETR</div>
+          <table class="kv-table">
+            <tr><td data-en="ETR Address" data-pt="Endereço ETR">ETR Address</td><td>0xCC8598B02BB753b0A557811a99622b33C73692cF</td></tr>
+            <tr><td data-en="Genesis Block" data-pt="Bloco Gênese">Genesis Block</td><td>23,878,199 · October 15, 2025 · Ethereum Mainnet</td></tr>
+            <tr><td data-en="Governing Law" data-pt="Lei Aplicável">Governing Law</td><td data-en="Genesis Ledger Choice of Law — ETR as Constitutional Ledger" data-pt="Escolha de Lei do Livro-Razão Gênese — ETR como Livro-Razão Constitucional">Genesis Ledger Choice of Law — ETR as Constitutional Ledger</td></tr>
+            <tr><td data-en="Institutional Custodian" data-pt="Custodiante Institucional">Institutional Custodian</td><td data-en="Fireblocks Trust Company — NYDFS Regulated — MPC Custody" data-pt="Fireblocks Trust Company — Regulada pela NYDFS — Custódia MPC">Fireblocks Trust Company — NYDFS Regulated — MPC Custody</td></tr>
+            <tr><td data-en="Custodian AUM" data-pt="AUM do Custodiante">Custodian AUM</td><td data-en="Ten Trillion and Zero Cents (10,000,000,000,000.00USD)" data-pt="Dez Trilhões e Zero Centavos (10.000.000.000.000,00USD)">Ten Trillion and Zero Cents (10,000,000,000,000.00USD)</td></tr>
+            <tr><td data-en="Settlement Interface" data-pt="Interface de Liquidação">Settlement Interface</td><td data-en="Savvy — Connected natively to Fireblocks Trust Company" data-pt="Savvy — Conectada nativamente à Fireblocks Trust Company">Savvy — Connected natively to Fireblocks Trust Company</td></tr>
+            <tr><td data-en="UCC Article 12 Status" data-pt="Status UCC Artigo 12">UCC Article 12 Status</td><td data-en="Perfected control established at ETR Genesis — seven months prior to June 3, 2026 New York operative date" data-pt="Controle perfeiçoado estabelecido na Gênese do ETR — sete meses antes da data operacional de Nova York de 3 de junho de 2026">Perfected control established at ETR Genesis — seven months prior to June 3, 2026 New York operative date</td></tr>
+          </table>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Principal Parties — Trust Protector Mandatory on All Contracts" data-pt="Partes Principais — Trust Protector Obrigatório em Todos os Contratos">Principal Parties — Trust Protector Mandatory on All Contracts</div>
+          <table class="kv-table">
+            <tr><td data-en="Settlement Ledger Operator" data-pt="Operador do Livro-Razão">Settlement Ledger Operator</td><td data-en="Equisource Group, LLC — Flame CER Electronic Trust Registry · 30 N Gould St Suite R, Sheridan, Wyoming 82801" data-pt="Equisource Group, LLC — Registro Eletrônico de Confiança CER Flame · 30 N Gould St Suite R, Sheridan, Wyoming 82801">Equisource Group, LLC — Flame CER Electronic Trust Registry · 30 N Gould St Suite R, Sheridan, Wyoming 82801</td></tr>
+            <tr><td data-en="Issuer and Tribal Government Entity" data-pt="Emitente e Entidade Governamental Tribal">Issuer and Tribal Government Entity</td><td data-en="Thoroughbred LLC — California — Successors: The Treaty with the Delawares 1778" data-pt="Thoroughbred LLC — Califórnia — Sucessores: O Tratado com os Delawares de 1778">Thoroughbred LLC — California — Successors: The Treaty with the Delawares 1778</td></tr>
+            <tr><td data-en="Trust Protector" data-pt="Trust Protector">Trust Protector</td><td data-en="GB Dynamics, Inc. — Jonathan Granger, Chief Executive Officer — Humanitarian Program Chief Executor" data-pt="GB Dynamics, Inc. — Jonathan Granger, Diretor Executivo — Executor-Chefe do Programa Humanitário">GB Dynamics, Inc. — Jonathan Granger, Chief Executive Officer — Humanitarian Program Chief Executor</td></tr>
+  
+          </table>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="June 3, 2026 — New York Operative Date" data-pt="3 de junho de 2026 — Data Operacional de Nova York">June 3, 2026 — New York Operative Date</div>
+          <p class="pt-txt" data-en="The UCC Article 12 control framework is binary: a party either satisfies all three prongs of §12-105 — (A) benefit, (B) exclusive prevention, (C) exclusive transfer — or holds zero control. No intermediate position exists under the statute. Perfected control was established at ETR genesis, October 15, 2025. June 3, 2026 is the crystallization date on which that extinguishment becomes operative under New York law for all instruments governed by New York jurisdiction, including cross-border instruments subject to SEC oversight." data-pt="O regime de controle do Artigo 12 da UCC é binário: uma parte satisfaz todos os três requisitos do §12-105 — (A) benefício, (B) prevenção exclusiva, (C) transferência exclusiva — ou não possui nenhum controle. Nenhuma posição intermediária existe no estatuto. O controle perfeiçoado foi estabelecido na gênese do ETR, em 15 de outubro de 2025. 3 de junho de 2026 é a data de cristalização na qual essa extinção se torna operacional sob a lei de Nova York para todos os instrumentos regidos pela jurisdição de Nova York.">The UCC Article 12 control framework is binary: a party either satisfies all three prongs of §12-105 — (A) benefit, (B) exclusive prevention, (C) exclusive transfer — or holds zero control. No intermediate position exists under the statute. Perfected control was established at ETR genesis, October 15, 2025. June 3, 2026 is the crystallization date on which that extinguishment becomes operative under New York law for all instruments governed by New York jurisdiction.</p>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Registered Identifiers" data-pt="Identificadores Registrados">Registered Identifiers</div>
+          <table class="kv-table">
+            <tr><td>CUSIP</td><td>85453P206</td></tr>
+            <tr><td>ISIN</td><td>US85453P2060</td></tr>
+            <tr><td>CIK</td><td>0001750462</td></tr>
+            <tr><td data-en="Copyright — Primary" data-pt="Direito Autoral — Principal">Copyright — Primary</td><td>TXu 2-207-707 (executed April 16, 2020; certified January 10, 2023)</td></tr>
+            <tr><td data-en="Copyright — Secondary" data-pt="Direito Autoral — Secundário">Copyright — Secondary</td><td>TXu 2-347-364</td></tr>
+            <tr><td data-en="Florida Apostille" data-pt="Apostila da Flórida">Florida Apostille</td><td>No. 2014-148134</td></tr>
+            <tr><td>CBP Recordation</td><td>COP 23-00067</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-div"><div class="gold-div-line"></div></div>
+
+<!-- ══════════ ARTICLE II — ATOMIC SETTLEMENT ARCHITECTURE ══════════ -->
+<section id="s2">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">II</div>
+      <div class="sec-label" data-en="Addressed To" data-pt="Endereçado A">Addressed To</div>
+      <div class="sec-recip">Banco do Brasil</div>
+      <div class="sec-type" data-en="State-Owned Commercial Sovereign" data-pt="Soberano Comercial de Propriedade Estatal">State-Owned Commercial Sovereign</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article II — Atomic Settlement Architecture and Vault Inventory" data-pt="Artigo II — Arquitetura de Liquidação Atômica e Inventário de Cofres">Article II — Atomic Settlement Architecture and Vault Inventory</h2>
+      <p class="sec-lead" data-en="The FLAME Protocol delivers atomic settlement — simultaneous, indivisible delivery and payment within a single execution instruction, without correspondent banking intermediation, clearinghouse dependency, or stablecoin conversion. The settlement pipeline consists of two steps: (1) Savvy redemption interface initiates the settlement instruction; (2) Fireblocks Trust Company MPC custody auto-executes the transfer to the whitelisted counterparty. No additional layers exist in the execution chain." data-pt="O FLAME Protocol fornece liquidação atômica — entrega e pagamento simultâneos e indivisíveis dentro de uma única instrução de execução, sem intermediação de banco correspondente, dependência de câmara de compensação ou conversão de stablecoin. O pipeline de liquidação consiste em duas etapas: (1) a interface de resgate Savvy inicia a instrução de liquidação; (2) a custódia MPC da Fireblocks Trust Company executa automaticamente a transferência para a contraparte na lista branca. Nenhuma camada adicional existe na cadeia de execução.">The FLAME Protocol delivers atomic settlement — simultaneous, indivisible delivery and payment within a single execution instruction, without correspondent banking intermediation, clearinghouse dependency, or stablecoin conversion. The settlement pipeline consists of two steps: (1) Savvy redemption interface initiates the settlement instruction; (2) Fireblocks Trust Company MPC custody auto-executes the transfer to the whitelisted counterparty. No additional layers exist in the execution chain.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Settlement Pipeline — Two Steps, No Intermediary" data-pt="Pipeline de Liquidação — Duas Etapas, Sem Intermediários">Settlement Pipeline — Two Steps, No Intermediary</div>
+          <div class="pipeline">
+            <div class="pipeline-step">
+              <div class="ps-num">1</div>
+              <div>
+                <div class="ps-entity">Savvy</div>
+                <div class="ps-func" data-en="Redemption interface — initiates settlement instruction" data-pt="Interface de resgate — inicia instrução de liquidação">Redemption interface — initiates settlement instruction</div>
+              </div>
+              <div class="ps-func" style="display:block" data-en="Redemption interface — initiates settlement instruction" data-pt="Interface de resgate — inicia instrução de liquidação">Redemption interface — initiates settlement instruction</div>
+              <div class="ps-status" data-en="Connected" data-pt="Conectado">Connected</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="ps-num">2</div>
+              <div>
+                <div class="ps-entity">Fireblocks Trust Company</div>
+                <div class="ps-func" data-en="MPC custody — auto-executes transfer per policy to whitelisted counterparty" data-pt="Custódia MPC — executa automaticamente transferência conforme política para contraparte homologada">MPC custody — auto-executes transfer per policy to whitelisted counterparty</div>
+              </div>
+              <div class="ps-func" style="display:block" data-en="MPC custody — auto-executes to whitelisted counterparty" data-pt="Custódia MPC — execução automática">MPC custody — auto-executes to whitelisted counterparty</div>
+              <div class="ps-status" data-en="Configured" data-pt="Configurado">Configured</div>
+            </div>
+          </div>
+          <div class="atomic-note" data-en="<strong>Atomic Settlement eliminates:</strong> correspondent banking chains · clearinghouse intermediation · T+2 settlement delay · stablecoin OTC conversion · counterparty credit risk. Settlement is final upon Fireblocks Trust Company execution. Fedwire correspondent access is native to the Fireblocks institutional infrastructure." data-pt="<strong>A Liquidação Atômica elimina:</strong> cadeias de bancos correspondentes · intermediação de câmara de compensação · atraso de liquidação T+2 · conversão OTC de stablecoin · risco de crédito de contraparte. A liquidação é final após a execução pela Fireblocks Trust Company. O acesso correspondente ao Fedwire é nativo à infraestrutura institucional Fireblocks."><strong>Atomic Settlement eliminates:</strong> correspondent banking chains · clearinghouse intermediation · T+2 settlement delay · stablecoin OTC conversion · counterparty credit risk. Settlement is final upon Fireblocks Trust Company execution. Fedwire correspondent access is native to the Fireblocks institutional infrastructure.</div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Multi-Vault CER Inventory — Five On-Chain Positions" data-pt="Inventário de CERs Multi-Cofre — Cinco Posições On-Chain">Multi-Vault CER Inventory — Five On-Chain Positions</div>
+          <table class="vault-table">
+            <thead><tr><th data-en="Vault" data-pt="Cofre">Vault</th><th data-en="Instrument" data-pt="Instrumento">Instrument</th><th data-en="CER Units" data-pt="Unidades CER">CER Units</th><th data-en="Per Unit Value" data-pt="Valor Por Unidade">Per Unit Value</th><th data-en="Settlement Value" data-pt="Valor de Liquidação">Settlement Value</th></tr></thead>
+            <tbody>
+              <tr><td>A</td><td data-en="FLAME C (FLAMEC) — Primary" data-pt="FLAME C (FLAMEC) — Principal">FLAME C (FLAMEC) — Primary</td><td>10,000,000,000</td><td>4,173.00 USD</td><td>41,730,000,000,000.00 USD</td></tr>
+              <tr><td>B</td><td data-en="aUSDT — Savvy (Active Settlement)" data-pt="aUSDT — Savvy (Liquidação Ativa)">aUSDT — Savvy (Active Settlement)</td><td>10,000,000,000</td><td>1.00 USD</td><td>10,000,000,000.00 USD</td></tr>
+              <tr><td>C</td><td data-en="aUSDT — Fireblocks V1 (Verification)" data-pt="aUSDT — Fireblocks V1 (Verificação)">aUSDT — Fireblocks V1 (Verification)</td><td>150</td><td>3,366,666,667.00 EUR</td><td>505,000,000,000.00 EUR</td></tr>
+              <tr><td>D</td><td data-en="aUSDT — Fireblocks V2 Production" data-pt="aUSDT — Fireblocks V2 Produção">aUSDT — Fireblocks V2 Production</td><td>20</td><td>3,366,666,667.00 EUR</td><td>67,333,333,340.00 EUR</td></tr>
+              <tr><td>E</td><td data-en="aUSDT — Sovereign Reserve (Treasury)" data-pt="aUSDT — Reserva Soberana (Tesouraria)">aUSDT — Sovereign Reserve (Treasury)</td><td>189,999,872,500</td><td>1.00 USD</td><td>189,999,872,500.00 USD</td></tr>
+              <tr class="total-row"><td colspan="2" data-en="COMBINED ON-CHAIN POSITION" data-pt="POSIÇÃO COMBINADA ON-CHAIN">COMBINED ON-CHAIN POSITION</td><td>209,999,872,670</td><td>—</td><td>41,929,999,872,500.00 USD<br>+ 572,333,333,340.00 EUR</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--text-m);font-style:italic;margin-top:.5rem" data-en="Vaults C and D are denominated in Euros (EUR). Vaults A, B, and E are denominated in United States Dollars (USD). All positions are on-chain verifiable at Ethereum Mainnet addresses stated in the Common Exhibit." data-pt="Os Cofres C e D são denominados em Euros (EUR). Os Cofres A, B e E são denominados em Dólares Americanos (USD). Todas as posições são verificáveis on-chain nos endereços da Rede Principal Ethereum indicados no Anexo Comum.">Vaults C and D are denominated in Euros (EUR). Vaults A, B, and E are denominated in United States Dollars (USD). All positions are on-chain verifiable at Ethereum Mainnet addresses stated in the Common Exhibit.</p>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="On-Chain Proof of Claims — Registered Collateral" data-pt="Prova de Reivindicações On-Chain — Garantias Registradas">On-Chain Proof of Claims — Registered Collateral</div>
+          <table class="poc-table">
+            <thead><tr><th data-en="Claim ID" data-pt="ID da Reivindicação">Claim ID</th><th data-en="Description" data-pt="Descrição">Description</th><th data-en="Registered Value" data-pt="Valor Registrado">Registered Value</th></tr></thead>
+            <tbody>
+              <tr><td>POC-001</td><td data-en="AEON Core Token (ERC-721)" data-pt="AEON Core Token (ERC-721)">AEON Core Token (ERC-721)</td><td>18,200,000,000.00 USD</td></tr>
+              <tr><td>POC-002</td><td data-en="Silver Bullion Bond" data-pt="Título de Lingote de Prata">Silver Bullion Bond</td><td>100,000,000,000.00 USD</td></tr>
+              <tr><td>POC-003</td><td data-en="Treasury Silver" data-pt="Prata do Tesouro">Treasury Silver</td><td>1,050,000,000.00 USD</td></tr>
+              <tr><td>POC-004</td><td data-en="UCC Financing Statements" data-pt="Declarações de Financiamento UCC">UCC Financing Statements</td><td>80,750,000,000.00 USD</td></tr>
+              <tr><td>POC-005</td><td data-en="Guinea — ORDIAMEX Corridor" data-pt="Guiné — Corredor ORDIAMEX">Guinea — ORDIAMEX Corridor</td><td>33,000,000,000.00 USD</td></tr>
+              <tr><td>POC-006</td><td data-en="Zambia — NGO Corridor" data-pt="Zâmbia — Corredor ONG">Zambia — NGO Corridor</td><td>500,000,000.00 USD</td></tr>
+              <tr><td>POC-007</td><td data-en="SEC CIK Registration Anchor" data-pt="Âncora de Registro CIK SEC">SEC CIK Registration Anchor</td><td>1,000,000,000.00 USD</td></tr>
+              <tr><td>POC-008</td><td data-en="Gold Reference — Bytecode-Immutable" data-pt="Referência Ouro — Bytecode Imutável">Gold Reference — Bytecode-Immutable</td><td>12,310,000,000,000.00 USD</td></tr>
+              <tr class="poc-total"><td colspan="2" data-en="TOTAL Aggregate Registered Collateral" data-pt="TOTAL Garantias Registradas Agregadas">TOTAL Aggregate Registered Collateral</td><td>12,544,500,000,000.00 USD</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--text-m);font-style:italic" data-en="Registered at FLAMEProofOfClaims — 0x3a512FC246B00eea76279348474D210A94c56FE6 — independently verifiable on Ethereum Mainnet." data-pt="Registrado no FLAMEProofOfClaims — 0x3a512FC246B00eea76279348474D210A94c56FE6 — verificável de forma independente na Rede Principal Ethereum.">Registered at FLAMEProofOfClaims — 0x3a512FC246B00eea76279348474D210A94c56FE6 — independently verifiable on Ethereum Mainnet.</p>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Fireblocks Brazil — Settlement Path Analysis" data-pt="Fireblocks Brasil — Análise de Caminho de Liquidação">Fireblocks Brazil — Settlement Path Analysis</div>
+          <div class="fb-block">
+            <div class="fb-hdr">
+              <span class="fb-hdr-title" data-en="Fireblocks Brazil Network" data-pt="Rede Fireblocks no Brasil">Fireblocks Brazil Network</span>
+              <span class="fb-hdr-sub" data-en="Confirmed Infrastructure · NYDFS Regulated · PSAV Registered" data-pt="Infraestrutura Confirmada · Regulada pela NYDFS · Registrada como PSAV">Confirmed Infrastructure · NYDFS Regulated · PSAV Registered</span>
+            </div>
+            <div class="fb-stats">
+              <div class="fb-stat"><div class="fb-stat-n">150+</div><div class="fb-stat-l" data-en="Latin America Clients" data-pt="Clientes na América Latina">Latin America Clients</div></div>
+              <div class="fb-stat"><div class="fb-stat-n">BR</div><div class="fb-stat-l" data-en="Significant Regional Share" data-pt="Parcela Regional Significativa">Significant Regional Share</div></div>
+              <div class="fb-stat"><div class="fb-stat-n">PSAV</div><div class="fb-stat-l" data-en="BCB-Regulated · Active" data-pt="Regulado pelo BCB · Ativo">BCB-Regulated · Active</div></div>
+            </div>
+            <div class="fb-conf">
+              <div class="fb-conf-lbl" data-en="Publicly Confirmed Brazilian Deployments" data-pt="Implantações Brasileiras Confirmadas Publicamente">Publicly Confirmed Brazilian Deployments</div>
+              <div class="fb-tags">
+                <span class="fb-tag" data-en="Nubank — Real Digital CBDC Pilot (BCB)" data-pt="Nubank — Piloto Real Digital CBDC (BCB)">Nubank — Real Digital CBDC Pilot (BCB)</span>
+                <span class="fb-tag" data-en="Bradesco — Institutional Custody" data-pt="Bradesco — Custódia Institucional">Bradesco — Institutional Custody</span>
+                <span class="fb-tag" data-en="BCB — PSAV Registered · Real Digital Engagement Active" data-pt="BCB — Registrada como PSAV · Engajamento Real Digital Ativo">BCB — PSAV Registered · Real Digital Engagement Active</span>
+              </div>
+            </div>
+            <div class="fb-paths">
+              <div class="fb-path fb-path-a">
+                <div class="fb-path-lbl" data-en="Path A — Existing BCB Vault" data-pt="Caminho A — Cofre BCB Existente">Path A — Existing BCB Vault</div>
+                <div class="fb-path-title" data-en="Vault-to-Vault — Atomic Execution" data-pt="Cofre a Cofre — Execução Atômica">Vault-to-Vault — Atomic Execution</div>
+                <p class="fb-path-body" data-en="Where a Fireblocks vault is operational at the Banco Central do Brasil, settlement executes atomically between vaults within the Fireblocks Trust Company network. No wire transfer. No stablecoin intermediation. No correspondent banking dependency. Settlement is final within seconds of instruction." data-pt="Onde um cofre Fireblocks estiver operacional no Banco Central do Brasil, a liquidação é executada atomicamente entre cofres dentro da rede da Fireblocks Trust Company. Sem transferência bancária. Sem intermediação de stablecoin. Sem dependência de banco correspondente. A liquidação é final segundos após a instrução.">Where a Fireblocks vault is operational at the Banco Central do Brasil, settlement executes atomically between vaults within the Fireblocks Trust Company network. No wire transfer. No stablecoin intermediation. No correspondent banking dependency. Settlement is final within seconds of instruction.</p>
+              </div>
+              <div class="fb-path fb-path-b">
+                <div class="fb-path-lbl" data-en="Path B — Vault Provisioning" data-pt="Caminho B — Provisionamento de Cofre">Path B — Vault Provisioning</div>
+                <div class="fb-path-title" data-en="Provisioning Under 24 Hours — São Paulo Office" data-pt="Provisionamento em Menos de 24 Horas — Escritório de São Paulo">Provisioning Under 24 Hours — São Paulo Office</div>
+                <p class="fb-path-body" data-en="In the absence of an existing Fireblocks vault at the Banco Central do Brasil, provisioning may be completed within twenty-four (24) hours through the Fireblocks São Paulo office. Upon provisioning, atomic settlement executes directly between vaults. No wire transfer. No stablecoin intermediation. No Resolution 561 compliance exposure." data-pt="Na ausência de um cofre Fireblocks existente no Banco Central do Brasil, o provisionamento pode ser concluído em vinte e quatro (24) horas pelo escritório do Fireblocks em São Paulo. Após o provisionamento, a liquidação atômica é executada diretamente entre cofres. Sem transferência bancária. Sem intermediação de stablecoin. Sem exposição à Resolução 561.">In the absence of an existing Fireblocks vault at the Banco Central do Brasil, provisioning may be completed within twenty-four (24) hours through the Fireblocks São Paulo office. Upon provisioning, atomic settlement executes directly between vaults. No wire transfer. No stablecoin intermediation. No Resolution 561 compliance exposure.</p>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-div"><div class="gold-div-line"></div></div>
+
+<!-- ══════════ ARTICLE III — DISTRIBUTION ══════════ -->
+<section id="s3">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">III</div>
+      <div class="sec-label" data-en="Addressed To" data-pt="Endereçado A">Addressed To</div>
+      <div class="sec-recip" data-en="Sovereign Entity" data-pt="Entidade Soberana">Sovereign Entity</div>
+      <div class="sec-type" data-en="Highest Register — Sovereign Wealth" data-pt="Mais Alto Registro — Patrimônio Soberano">Highest Register — Sovereign Wealth</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article III — Settlement Distribution Schedule" data-pt="Artigo III — Cronograma de Distribuição de Liquidação">Article III — Settlement Distribution Schedule</h2>
+      <p class="sec-lead" data-en="The following distribution schedule reflects the agreed settlement allocation between the Brazilian Counterparties (Sixty Percent — 60%) and GB Dynamics, Inc. / Equisource Group, LLC (Forty Percent — 40%) of the total combined on-chain position. All figures are derived from the Institutional Custody Vault Statement of record, prepared May 27, 2026. Sovereign-to-sovereign standing is a prerequisite to participation. This transaction may not be entered in an individual or purely commercial capacity." data-pt="O cronograma de distribuição a seguir reflete a alocação de liquidação acordada entre as Contrapartes Brasileiras (Sessenta Por Cento — 60%) e GB Dynamics, Inc. / Equisource Group, LLC (Quarenta Por Cento — 40%) da posição total combinada on-chain. Todos os valores são derivados do Demonstrativo de Custódia Institucional de registro, preparado em 27 de maio de 2026. A legitimidade soberana para soberana é um pré-requisito para a participação.">The following distribution schedule reflects the agreed settlement allocation between the Brazilian Counterparties (Sixty Percent — 60%) and GB Dynamics, Inc. / Equisource Group, LLC (Forty Percent — 40%) of the total combined on-chain position. All figures are derived from the Institutional Custody Vault Statement of record, prepared May 27, 2026. Sovereign-to-sovereign standing is a prerequisite to participation.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="USD Denominated Distribution" data-pt="Distribuição Denominada em USD">USD Denominated Distribution</div>
+          <table class="dist-table">
+            <thead><tr><th data-en="Party" data-pt="Parte">Party</th><th data-en="Allocation" data-pt="Alocação">Allocation</th><th data-en="USD Amount" data-pt="Valor em USD">USD Amount</th></tr></thead>
+            <tbody>
+              <tr><td data-en="Brazilian Counterparties" data-pt="Contrapartes Brasileiras">Brazilian Counterparties</td><td data-en="Sixty Percent (60%)" data-pt="Sessenta Por Cento (60%)">Sixty Percent (60%)</td><td>25,157,999,923,500.00 USD</td></tr>
+              <tr class="d-words"><td colspan="3" data-en="Twenty-Five Trillion One Hundred Fifty-Seven Billion Nine Hundred Ninety-Nine Million Nine Hundred Twenty-Three Thousand Five Hundred and Zero Cents (25,157,999,923,500.00USD)" data-pt="Vinte e Cinco Trilhões Cento e Cinquenta e Sete Bilhões Novecentos e Noventa e Nove Milhões Novecentos e Vinte e Três Mil Quinhentos e Zero Centavos (25.157.999.923.500,00USD)">Twenty-Five Trillion One Hundred Fifty-Seven Billion Nine Hundred Ninety-Nine Million Nine Hundred Twenty-Three Thousand Five Hundred and Zero Cents (25,157,999,923,500.00USD)</td></tr>
+              <tr><td data-en="GB Dynamics, Inc. / Equisource Group, LLC" data-pt="GB Dynamics, Inc. / Equisource Group, LLC">GB Dynamics, Inc. / Equisource Group, LLC</td><td data-en="Forty Percent (40%)" data-pt="Quarenta Por Cento (40%)">Forty Percent (40%)</td><td>16,771,999,949,000.00 USD</td></tr>
+              <tr class="d-words"><td colspan="3" data-en="Sixteen Trillion Seven Hundred Seventy-One Billion Nine Hundred Ninety-Nine Million Nine Hundred Forty-Nine Thousand and Zero Cents (16,771,999,949,000.00USD)" data-pt="Dezesseis Trilhões Setecentos e Setenta e Um Bilhões Novecentos e Noventa e Nove Milhões Novecentos e Quarenta e Nove Mil e Zero Centavos (16.771.999.949.000,00USD)">Sixteen Trillion Seven Hundred Seventy-One Billion Nine Hundred Ninety-Nine Million Nine Hundred Forty-Nine Thousand and Zero Cents (16,771,999,949,000.00USD)</td></tr>
+              <tr class="d-total"><td data-en="TOTAL" data-pt="TOTAL">TOTAL</td><td>100%</td><td>41,929,999,872,500.00 USD</td></tr>
+            </tbody>
+          </table>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="EUR Denominated Distribution" data-pt="Distribuição Denominada em EUR">EUR Denominated Distribution</div>
+          <table class="dist-table">
+            <thead><tr><th data-en="Party" data-pt="Parte">Party</th><th data-en="Allocation" data-pt="Alocação">Allocation</th><th data-en="EUR Amount" data-pt="Valor em EUR">EUR Amount</th></tr></thead>
+            <tbody>
+              <tr><td data-en="Brazilian Counterparties" data-pt="Contrapartes Brasileiras">Brazilian Counterparties</td><td data-en="Sixty Percent (60%)" data-pt="Sessenta Por Cento (60%)">Sixty Percent (60%)</td><td>343,400,000,004.00 EUR</td></tr>
+              <tr class="d-words"><td colspan="3" data-en="Three Hundred Forty-Three Billion Four Hundred Million Four and Zero Cents (343,400,000,004.00EUR)" data-pt="Trezentos e Quarenta e Três Bilhões Quatrocentos Milhões Quatro e Zero Centavos (343.400.000.004,00EUR)">Three Hundred Forty-Three Billion Four Hundred Million Four and Zero Cents (343,400,000,004.00EUR)</td></tr>
+              <tr><td data-en="GB Dynamics, Inc. / Equisource Group, LLC" data-pt="GB Dynamics, Inc. / Equisource Group, LLC">GB Dynamics, Inc. / Equisource Group, LLC</td><td data-en="Forty Percent (40%)" data-pt="Quarenta Por Cento (40%)">Forty Percent (40%)</td><td>228,933,333,336.00 EUR</td></tr>
+              <tr class="d-total"><td data-en="TOTAL" data-pt="TOTAL">TOTAL</td><td>100%</td><td>572,333,333,340.00 EUR</td></tr>
+            </tbody>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<div class="gold-div"><div class="gold-div-line"></div></div>
+
+<!-- ══════════ ARTICLE IV — RESOLUTION 561 ══════════ -->
+<section id="s4">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">IV</div>
+      <div class="sec-label" data-en="Legal Analysis" data-pt="Análise Jurídica">Legal Analysis</div>
+      <div class="sec-recip">BCB Resolution No. 561</div>
+      <div class="sec-type" data-en="Why the Wire Path Is Illegal Under Brazil's Own Laws" data-pt="Por Que o Caminho de Transferência Bancária É Ilegal Segundo as Próprias Leis do Brasil">Why the Wire Path Is Illegal Under Brazil's Own Laws</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article IV — Resolution 561 and the Structural Prohibition on Alternative Paths" data-pt="Artigo IV — Resolução 561 e a Proibição Estrutural de Caminhos Alternativos">Article IV — Resolution 561 and the Structural Prohibition on Alternative Paths</h2>
+      <p class="sec-lead" data-en="Brazil did not accidentally ban stablecoin settlement. It wrote the law precisely to prohibit the very path the wire-to-USDT route requires. On April 30, 2026, the Banco Central do Brasil issued Resolution No. 561, which bars regulated eFX providers from using stablecoins, bitcoin, or any crypto assets to settle the offshore leg of international payments. The resolution is explicit: payments between an eFX provider and its foreign counterparty must move through a traditional foreign exchange transaction or a non-resident Brazilian real account. The use of virtual assets is strictly prohibited. This is not a theoretical restriction. Braza Bank, Nomad, and Wise — all of which had built stablecoin settlement into their cross-border flows — are now required to reconfigure their systems. The law commands fiat-only settlement for regulated international payments." data-pt="O Brasil não proibiu acidentalmente a liquidação com stablecoin. Ele redigiu a lei precisamente para proibir o caminho que a rota de transferência bancária para USDT exige. Em 30 de abril de 2026, o Banco Central do Brasil emitiu a Resolução nº 561, que proíbe os provedores regulamentados de eFX de usar stablecoins, bitcoin ou quaisquer criptoativos para liquidar a perna offshore de pagamentos internacionais. A resolução é explícita: os pagamentos entre um provedor de eFX e sua contraparte estrangeira devem transitar por uma transação de câmbio tradicional ou por uma conta em reais de não-residentes. O uso de ativos virtuais é estritamente proibido. Esta não é uma restrição teórica. Braza Bank, Nomad e Wise — todos os quais haviam incorporado a liquidação com stablecoin em seus fluxos transfronteiriços — agora são obrigados a reconfigurar seus sistemas.">Brazil did not accidentally ban stablecoin settlement. It wrote the law precisely to prohibit the very path the wire-to-USDT route requires. On April 30, 2026, the Banco Central do Brasil issued Resolution No. 561, which bars regulated eFX providers from using stablecoins, bitcoin, or any crypto assets to settle the offshore leg of international payments. Payments must move through a traditional foreign exchange transaction or a non-resident Brazilian real account. Braza Bank, Nomad, and Wise — all of which had built stablecoin settlement into cross-border flows — are now required to reconfigure their systems.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="The Wire-to-USDT Path — Why It Violates Resolution 561" data-pt="O Caminho Transferência-para-USDT — Por Que Viola a Resolução 561">The Wire-to-USDT Path — Why It Violates Resolution 561</div>
+          <div class="path-compare">
+            <div class="pc-col pc-bad">
+              <div class="pc-head" data-en="Wire → USDT → Wallet Path — Prohibited" data-pt="Transferência → USDT → Carteira — Proibido">Wire → USDT → Wallet Path — Prohibited</div>
+              <div class="pc-item"><span class="pc-mark">✗</span><span data-en="Uses a stablecoin (USDT) to settle a regulated cross-border payment — the exact activity Resolution 561 prohibits" data-pt="Utiliza uma stablecoin (USDT) para liquidar um pagamento transfronteiriço regulamentado — exatamente a atividade que a Resolução 561 proíbe">Uses a stablecoin (USDT) to settle a regulated cross-border payment — the exact activity Resolution 561 prohibits</span></div>
+              <div class="pc-item"><span class="pc-mark">✗</span><span data-en="Falls within the prohibited activity under Resolution 561 — no exception for sovereign transactions, no exception for central bank counterparties" data-pt="Enquadra-se na atividade proibida pela Resolução 561 — sem exceção para transações soberanas, sem exceção para contrapartes de bancos centrais">Falls within the prohibited activity under Resolution 561 — no exception for sovereign transactions, no exception for central bank counterparties</span></div>
+              <div class="pc-item"><span class="pc-mark">✗</span><span data-en="Exposes Brazil and its counterparties to regulatory and enforcement risk under Brazil's own financial law" data-pt="Expõe o Brasil e suas contrapartes a risco regulatório e de fiscalização sob a própria lei financeira brasileira">Exposes Brazil and its counterparties to regulatory and enforcement risk</span></div>
+              <div class="pc-item"><span class="pc-mark">✗</span><span data-en="Requires Brazil to ignore its own law to execute the transaction — undermining the foundation of its regulatory authority" data-pt="Exige que o Brasil ignore sua própria lei para executar a transação — minando a base de sua autoridade regulatória">Requires Brazil to ignore its own law — undermining the foundation of regulatory authority</span></div>
+              <div class="pc-item"><span class="pc-mark">✗</span><span data-en="Basel III: triggers stablecoin 250% risk weight capital charge on the receiving institution" data-pt="Basileia III: aciona encargo de capital com peso de risco de 250% para stablecoin na instituição receptora">Basel III: triggers stablecoin 250% risk weight capital charge</span></div>
+            </div>
+            <div class="pc-col pc-good">
+              <div class="pc-head" data-en="Direct Vault-to-Vault Transfer — Compliant" data-pt="Transferência Direta de Cofre a Cofre — Conforme">Direct Vault-to-Vault Transfer — Compliant</div>
+              <div class="pc-item"><span class="pc-mark">✓</span><span data-en="Involves no stablecoin — the stablecoin prohibition is structurally irrelevant to this transaction" data-pt="Não envolve stablecoin — a proibição de stablecoin é estruturalmente irrelevante para esta transação">Involves no stablecoin — the stablecoin prohibition is structurally irrelevant</span></div>
+              <div class="pc-item"><span class="pc-mark">✓</span><span data-en="Is not a crypto payment as defined in Resolution 561 — it is a sovereign-level asset transfer under UCC Article 12 jurisdiction, a category the resolution does not reach" data-pt="Não é um pagamento em criptoativos conforme definido na Resolução 561 — é uma transferência de ativo soberano sob a jurisdição do Artigo 12 da UCC, uma categoria que a resolução não alcança">Is not a crypto payment under Resolution 561 — it is a sovereign-level UCC Article 12 asset transfer, a category the resolution does not reach</span></div>
+              <div class="pc-item"><span class="pc-mark">✓</span><span data-en="The BCB is not acting as an eFX provider — it is acting as a qualifying purchaser under the UCC, a distinct legal category" data-pt="O BCB não age como provedor de eFX — age como comprador qualificado sob a UCC, uma categoria jurídica distinta">The BCB is acting as a qualifying purchaser under the UCC — a distinct legal category, not an eFX provider</span></div>
+              <div class="pc-item"><span class="pc-mark">✓</span><span data-en="Full compliance with Resolution 561 — and Resolution 561 becomes a competitive moat: Brazil can enforce it against all other counterparties while offering a compliant path to treaty partners" data-pt="Plena conformidade com a Resolução 561 — e a Resolução 561 torna-se uma vantagem competitiva: o Brasil pode aplicá-la contra todas as outras contrapartes enquanto oferece um caminho compatível para parceiros do tratado">Full compliance — Resolution 561 becomes a competitive moat for Brazil, not a constraint</span></div>
+              <div class="pc-item"><span class="pc-mark">✓</span><span data-en="Zero Basel III capital penalty — a perfected CER under exclusive control is not a crypto asset for Basel purposes" data-pt="Zero de penalidade de capital da Basileia III — um CER perfeiçoado sob controle exclusivo não é um criptoativo para fins de Basileia">Zero Basel III capital penalty — a perfected CER under exclusive control is not a crypto asset for Basel purposes</span></div>
+            </div>
+          </div>
+          <div class="cite-block"><span class="cite-ref">[1]</span> Payments Journal, "Brazil to Eliminate Stablecoins from Cross-Border Transactions," May 4, 2026. <span class="cite-ref">[2]</span> CoinMarketCap, "Brazil Central Bank Cracks Down On Crypto Usage," May 2, 2026. <span class="cite-ref">[3]</span> Futunn, "Brazil's Central Bank Bans Stablecoin and Crypto Settlement in Cross-border Payments," May 3, 2026.</div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Brazil's Laws Have Already Determined the Only Compliant Path" data-pt="As Leis do Brasil Já Determinaram o Único Caminho Compatível">Brazil's Laws Have Already Determined the Only Compliant Path</div>
+          <div class="law-grid">
+            <div class="law-card prohibited">
+              <div class="lc-tag" data-en="Prohibited Under Resolution 561" data-pt="Proibido pela Resolução 561">Prohibited Under Resolution 561</div>
+              <div class="lc-title" data-en="Stablecoin eFX Settlement" data-pt="Liquidação eFX com Stablecoin">Stablecoin eFX Settlement</div>
+              <p class="lc-text" data-en="Virtual assets strictly prohibited for settling the offshore leg of regulated cross-border payments. No exception for sovereign transactions. No exception for central bank counterparties. The structural line is explicit." data-pt="Ativos virtuais estritamente proibidos para liquidar a perna offshore de pagamentos transfronteiriços regulamentados. Sem exceção para transações soberanas. Sem exceção para contrapartes de bancos centrais.">Virtual assets strictly prohibited for settling the offshore leg of regulated cross-border payments. No exception for sovereign transactions. No exception for central bank counterparties. The structural line is explicit.</p>
+            </div>
+            <div class="law-card permitted">
+              <div class="lc-tag" data-en="Permitted Under BCB Resolutions 519–521" data-pt="Permitido pelas Resoluções BCB 519–521">Permitted Under BCB Resolutions 519–521</div>
+              <div class="lc-title" data-en="Institutional VASP Infrastructure" data-pt="Infraestrutura VASP Institucional">Institutional VASP Infrastructure</div>
+              <p class="lc-text" data-en="Since February 2, 2026, BCB Resolutions 519, 520, and 521 established Brazil's comprehensive VASP licensing framework. Fireblocks is a regulated institutional VASP in Brazil. The BCB has announced that by 2027 it will bring institutional B2B crypto infrastructure providers under formal supervision — including Fireblocks." data-pt="Desde 2 de fevereiro de 2026, as Resoluções BCB 519, 520 e 521 estabeleceram a estrutura abrangente de licenciamento de VASP do Brasil. O Fireblocks é um VASP institucional regulamentado no Brasil. O BCB anunciou que até 2027 trará os provedores de infraestrutura cripto B2B institucionais sob supervisão formal — incluindo o Fireblocks.">Since February 2, 2026, BCB Resolutions 519, 520, and 521 established Brazil's comprehensive VASP licensing framework. Fireblocks is a regulated institutional VASP in Brazil. By 2027 the BCB will bring institutional B2B crypto infrastructure providers under formal supervision — including Fireblocks.</p>
+            </div>
+            <div class="law-card neutral">
+              <div class="lc-tag" data-en="Sovereign Immunity — International Framework" data-pt="Imunidade Soberana — Quadro Internacional">Sovereign Immunity — International Framework</div>
+              <div class="lc-title" data-en="Treaty-Level Asset Protection" data-pt="Proteção de Ativos em Nível de Tratado">Treaty-Level Asset Protection</div>
+              <p class="lc-text" data-en="UN Convention on Jurisdictional Immunities (2004), Article 21: central bank property held for sovereign purposes is immune from attachment. US FSIA, 28 USC §1611(b)(1): foreign central bank assets held for its own account are immune from attachment. BCB's qualified purchaser status becomes enforceable internationally — any challenge can be elevated to investor-state arbitration." data-pt="Convenção da ONU sobre Imunidades Jurisdicionais (2004), Artigo 21: propriedade de banco central mantida para fins soberanos é imune de penhora. FSIA dos EUA, 28 USC §1611(b)(1): ativos de bancos centrais estrangeiros mantidos em conta própria são imunes de penhora. O status de comprador qualificado do BCB torna-se internacionalmente aplicável.">UN Convention on Jurisdictional Immunities (2004), Article 21: central bank property held for sovereign purposes is immune from attachment. US FSIA, 28 USC §1611(b)(1): foreign central bank assets are immune. BCB's qualified purchaser status becomes internationally enforceable.</p>
+            </div>
+          </div>
+          <div class="cite-block"><span class="cite-ref">[5]</span> BYDFi, "Brazil crypto 2026: VASP licensing live," April 22, 2026. <span class="cite-ref">[6]</span> DeFi Planet, "Central Bank of Brazil to Regulate Institutional Crypto Firms by 2027," February 23, 2026.</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-div"><div class="gold-div-line"></div></div>
+
+<!-- ══════════ ARTICLE V — FIREBLOCKS COMPLIANCE ══════════ -->
+<section id="s5">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">V</div>
+      <div class="sec-label" data-en="Infrastructure Analysis" data-pt="Análise de Infraestrutura">Infrastructure Analysis</div>
+      <div class="sec-recip">Fireblocks Trust Company</div>
+      <div class="sec-type" data-en="Already Compliant, Already Set Up, Already Used by Brazil" data-pt="Já Compatível, Já Configurado, Já Utilizado pelo Brasil">Already Compliant, Already Set Up, Already Used by Brazil</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article V — Why Fireblocks Is the Only Infrastructure Brazil Already Has, Already Recognizes, and Already Uses" data-pt="Artigo V — Por Que o Fireblocks É a Única Infraestrutura que o Brasil Já Possui, Já Reconhece e Já Utiliza">Article V — Why Fireblocks Is the Only Infrastructure Brazil Already Has, Already Recognizes, and Already Uses</h2>
+      <p class="sec-lead" data-en="Brazil's own regulatory framework has already pre-cleared the infrastructure for this transaction. Fireblocks is not an untested technology being introduced to Brazil. It is a regulated institutional VASP under Brazil's own licensing framework, already embedded in the BCB's innovation programs, already deployed by the country's largest banks, and already involved in the Real Digital CBDC pilot — the BCB's own digital currency experiment. The BCB does not need to build anything new. The rail is already there. The only remaining step is acceptance." data-pt="O próprio quadro regulatório do Brasil já aprovou previamente a infraestrutura para esta transação. O Fireblocks não é uma tecnologia não testada sendo introduzida no Brasil. É um VASP institucional regulamentado sob o próprio quadro de licenciamento do Brasil, já incorporado nos programas de inovação do BCB, já implantado pelos maiores bancos do país e já envolvido no piloto do Real Digital CBDC. O BCB não precisa construir nada novo. O trilho já existe. O único passo restante é a aceitação.">Brazil's own regulatory framework has already pre-cleared the infrastructure for this transaction. Fireblocks is not an untested technology. It is a regulated institutional VASP under Brazil's own licensing framework, already embedded in BCB innovation programs, already deployed by the country's largest banks, and already involved in the Real Digital CBDC pilot. The BCB does not need to build anything new. The rail is already there.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Fireblocks Brazil — Regulatory Status" data-pt="Fireblocks Brasil — Status Regulatório">Fireblocks Brazil — Regulatory Status</div>
+          <div class="regulator-grid">
+            <div class="reg-card">
+              <div class="reg-label" data-en="Regulatory Status — Brazil" data-pt="Status Regulatório — Brasil">Regulatory Status — Brazil</div>
+              <div class="reg-name">BCB — PSAV Registered</div>
+              <p class="reg-status" data-en="Fireblocks is registered as a Virtual Asset Service Provider (PSAV) under the Banco Central do Brasil's regulatory framework — the same framework governing all institutional crypto infrastructure providers in Brazil." data-pt="O Fireblocks está registrado como Provedor de Serviços de Ativos Virtuais (PSAV) no quadro regulatório do Banco Central do Brasil — o mesmo quadro que rege todos os provedores de infraestrutura cripto institucional no Brasil.">Registered as a PSAV (Virtual Asset Service Provider) under the Banco Central do Brasil's regulatory framework governing all institutional crypto infrastructure providers.</p>
+              <span class="reg-badge active" data-en="Active · Registered" data-pt="Ativo · Registrado">Active · Registered</span>
+            </div>
+            <div class="reg-card">
+              <div class="reg-label" data-en="Regulatory Status — United States" data-pt="Status Regulatório — Estados Unidos">Regulatory Status — United States</div>
+              <div class="reg-name">NYDFS — Trust Company</div>
+              <p class="reg-status" data-en="Fireblocks Trust Company is regulated by the New York Department of Financial Services — the same regulator that supervises JPMorgan, Goldman Sachs, and the largest financial institutions in the United States." data-pt="A Fireblocks Trust Company é regulamentada pelo Departamento de Serviços Financeiros de Nova York — o mesmo regulador que supervisiona o JPMorgan, Goldman Sachs e as maiores instituições financeiras dos Estados Unidos.">Regulated by the New York Department of Financial Services — the same regulator supervising JPMorgan and Goldman Sachs.</p>
+              <span class="reg-badge active" data-en="Trust Company · NYDFS" data-pt="Trust Company · NYDFS">Trust Company · NYDFS</span>
+            </div>
+            <div class="reg-card">
+              <div class="reg-label" data-en="Future Supervision — BCB Announced" data-pt="Supervisão Futura — Anunciada pelo BCB">Future Supervision — BCB Announced</div>
+              <div class="reg-name" data-en="BCB — 2027 Institutional B2B" data-pt="BCB — 2027 B2B Institucional">BCB — 2027 Institutional B2B</div>
+              <p class="reg-status" data-en="The BCB has publicly announced it will bring institutional B2B crypto infrastructure providers under formal BCB supervision by 2027 — a program that specifically names Fireblocks-tier institutional custody as the target category." data-pt="O BCB anunciou publicamente que trará os provedores de infraestrutura cripto B2B institucionais sob supervisão formal do BCB até 2027 — um programa que nomeia especificamente a custódia institucional de nível Fireblocks como a categoria-alvo.">BCB publicly announced formal supervision of institutional B2B crypto infrastructure — Fireblocks-tier custody — by 2027.</p>
+              <span class="reg-badge pending" data-en="Announced · 2027" data-pt="Anunciado · 2027">Announced · 2027</span>
+            </div>
+            <div class="reg-card">
+              <div class="reg-label" data-en="Global Scale" data-pt="Escala Global">Global Scale</div>
+              <div class="reg-name">USD 5T Annual Volume</div>
+              <p class="reg-status" data-en="Fireblocks secures over USD 5 Trillion in digital asset transfers annually. It is the institutional infrastructure layer for BNY Mellon, Braza Bank, and over 1,500 institutional clients across 50+ countries." data-pt="O Fireblocks protege mais de USD 5 Trilhões em transferências de ativos digitais anualmente. É a camada de infraestrutura institucional do BNY Mellon, Braza Bank e mais de 1.500 clientes institucionais em mais de 50 países.">Over USD 5 Trillion in annual transfers. Institutional infrastructure for BNY Mellon, Braza Bank, and 1,500+ institutional clients across 50+ countries.</p>
+              <span class="reg-badge active">USD 5T · 150+ LatAm Clients</span>
+            </div>
+          </div>
+          <div class="cite-block"><span class="cite-ref">[5]</span> BYDFi, "Brazil crypto 2026: VASP licensing live," April 22, 2026. <span class="cite-ref">[6]</span> DeFi Planet, "Central Bank of Brazil to Regulate Institutional Crypto Firms by 2027," February 23, 2026. <span class="cite-ref">[8]</span> Cointelegraph Brasil, "Fireblocks expande operações no Brasil com novo marco regulatório cripto," February 20, 2026.</div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Fireblocks Brazil Timeline — History With the BCB" data-pt="Linha do Tempo Fireblocks Brasil — Histórico com o BCB">Fireblocks Brazil Timeline — History With the BCB</div>
+          <div class="fb-timeline">
+            <div class="fbt-row"><div class="fbt-date">Dec 2022</div><div class="fbt-event"><strong data-en="BCB — Fireblocks Engagement Begins" data-pt="BCB — Engajamento Fireblocks Inicia">BCB — Fireblocks Engagement Begins</strong><span data-en="Fireblocks executives confirmed ongoing conversations with the BCB and Real Digital project leaders — and stated the company was positioning itself to become a key intermediary for Real Digital transactions." data-pt="Executivos do Fireblocks confirmaram conversas contínuas com o BCB e líderes do projeto Real Digital — e afirmaram que a empresa estava se posicionando para se tornar um intermediário-chave nas transações do Real Digital.">Fireblocks executives confirmed ongoing conversations with the BCB and Real Digital project leaders — positioning to become a key intermediary for Real Digital transactions.</span></div></div>
+            <div class="fbt-row"><div class="fbt-date">2023–2024</div><div class="fbt-event"><strong data-en="Real Digital (Drex) CBDC Pilot Participation" data-pt="Participação no Piloto CBDC Real Digital (Drex)">Real Digital (Drex) CBDC Pilot Participation</strong><span data-en="Fireblocks participated in at least one Real Digital pilot project under the BCB's LIFT innovation lab — including a project with Nubank simulating CBDC transactions with the BCB. The BCB's own CBDC pilot infrastructure runs on Fireblocks." data-pt="O Fireblocks participou de pelo menos um projeto piloto do Real Digital sob o laboratório de inovação LIFT do BCB — incluindo um projeto com o Nubank simulando transações CBDC com o BCB. A própria infraestrutura do piloto CBDC do BCB é executada no Fireblocks.">Fireblocks participated in at least one Real Digital pilot under the BCB's LIFT innovation lab — including a Nubank project simulating CBDC transactions with the BCB directly. The BCB's own CBDC pilot infrastructure runs on Fireblocks.</span></div></div>
+            <div class="fbt-row fbt-key"><div class="fbt-date">Feb 2, 2026</div><div class="fbt-event"><strong data-en="BCB Resolutions 519, 520, 521 — VASP Framework Live" data-pt="Resoluções BCB 519, 520, 521 — Quadro VASP Ativo">BCB Resolutions 519, 520, 521 — VASP Framework Live</strong><span data-en="Brazil's comprehensive VASP licensing framework takes effect. Fireblocks registered as institutional PSAV. The regulatory infrastructure for this transfer was finalized on this date." data-pt="O quadro abrangente de licenciamento VASP do Brasil entra em vigor. Fireblocks registrado como PSAV institucional. A infraestrutura regulatória para esta transferência foi finalizada nesta data.">Brazil's comprehensive VASP licensing framework takes effect. Fireblocks registered as institutional PSAV. The regulatory infrastructure for this transfer was finalized on this date.</span></div></div>
+            <div class="fbt-row fbt-key"><div class="fbt-date">Feb 20, 2026</div><div class="fbt-event"><strong data-en="Fireblocks Expands Brazil Operations — New Regulatory Framework" data-pt="Fireblocks Expande Operações no Brasil — Novo Marco Regulatório">Fireblocks Expands Brazil Operations — New Regulatory Framework</strong><span data-en="Fireblocks publicly expanded its São Paulo office and operations to coincide with Brazil's new crypto regulatory framework — confirming its position as the primary institutional-grade infrastructure provider for the Brazilian market." data-pt="O Fireblocks expandiu publicamente seu escritório e operações em São Paulo para coincidir com o novo marco regulatório cripto do Brasil — confirmando sua posição como o principal provedor de infraestrutura de nível institucional para o mercado brasileiro.">Fireblocks publicly expanded its São Paulo office to coincide with Brazil's new crypto regulatory framework — confirming its position as the primary institutional-grade infrastructure provider for the Brazilian market.</span></div></div>
+            <div class="fbt-row fbt-key"><div class="fbt-date">Apr 30, 2026</div><div class="fbt-event"><strong data-en="Resolution 561 — Stablecoin eFX Settlement Prohibited" data-pt="Resolução 561 — Liquidação eFX com Stablecoin Proibida">Resolution 561 — Stablecoin eFX Settlement Prohibited</strong><span data-en="Brazil bans virtual assets from regulated cross-border payment settlement. The direct vault-to-vault Fireblocks transfer — which involves no stablecoin — is the only remaining compliant institutional path. Resolution 561 eliminated every alternative." data-pt="O Brasil proíbe ativos virtuais da liquidação de pagamentos transfronteiriços regulamentados. A transferência direta de cofre a cofre do Fireblocks — que não envolve stablecoin — é o único caminho institucional compatível remanescente. A Resolução 561 eliminou todas as alternativas.">Brazil bans virtual assets from regulated cross-border payment settlement. The direct Fireblocks vault-to-vault transfer — no stablecoin — is the only remaining compliant institutional path. Resolution 561 eliminated every alternative.</span></div></div>
+            <div class="fbt-row"><div class="fbt-date">Today</div><div class="fbt-event"><strong data-en="The Rail Is Already There — Only the Vault Address Is Missing" data-pt="O Trilho Já Existe — Apenas o Endereço do Cofre Está Faltando">The Rail Is Already There — Only the Vault Address Is Missing</strong><span data-en="Bradesco and Nubank are live on Fireblocks. The BCB has an existing Fireblocks relationship through Real Digital. The PSAV framework is operational. Settlement infrastructure is configured. The BCB simply needs to provide its vault address — or open a new Fireblocks vault in under 24 hours through the São Paulo office." data-pt="Bradesco e Nubank estão ativos no Fireblocks. O BCB tem um relacionamento existente com o Fireblocks por meio do Real Digital. O quadro PSAV está operacional. A infraestrutura de liquidação está configurada. O BCB simplesmente precisa fornecer o endereço do seu cofre — ou abrir um novo cofre Fireblocks em menos de 24 horas pelo escritório de São Paulo.">Bradesco and Nubank are live on Fireblocks. BCB has an existing Fireblocks relationship through Real Digital. The PSAV framework is operational. Settlement infrastructure is configured. The BCB simply needs to provide its vault address — or open a new vault in under 24 hours through the São Paulo office.</span></div></div>
+          </div>
+          <div class="cite-block"><span class="cite-ref">[7]</span> Cointelegraph Brasil, "Fireblocks se aproxima do BC," December 16, 2022. <span class="cite-ref">[8]</span> Cointelegraph Brasil, "Fireblocks expande operações no Brasil," February 20, 2026.</div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Confirmed Brazilian Institutional Deployments" data-pt="Implantações Institucionais Brasileiras Confirmadas">Confirmed Brazilian Institutional Deployments</div>
+          <div class="law-grid">
+            <div class="law-card permitted">
+              <div class="lc-tag" data-en="Live — Institutional Crypto Custody" data-pt="Ativo — Custódia Cripto Institucional">Live — Institutional Crypto Custody</div>
+              <div class="lc-title">Bradesco</div>
+              <p class="lc-text" data-en="Bradesco — Brazil's second-largest private bank — built institutional-grade crypto custody on Fireblocks. This is not a pilot. This is production infrastructure deployed at the institutional banking scale in Brazil." data-pt="O Bradesco — o segundo maior banco privado do Brasil — construiu custódia cripto de nível institucional no Fireblocks. Isto não é um piloto. Esta é infraestrutura de produção implantada na escala bancária institucional no Brasil.">Brazil's second-largest private bank built institutional-grade crypto custody on Fireblocks. Not a pilot — production infrastructure at institutional banking scale.</p>
+            </div>
+            <div class="law-card permitted">
+              <div class="lc-tag" data-en="Live — Real Digital CBDC Pilot" data-pt="Ativo — Piloto CBDC Real Digital">Live — Real Digital CBDC Pilot</div>
+              <div class="lc-title">Nubank</div>
+              <p class="lc-text" data-en="Nubank — Brazil's largest digital bank — participated in the BCB's Real Digital CBDC pilot using Fireblocks to simulate transactions with the BCB directly. Nubank is currently live on Fireblocks at institutional scale." data-pt="O Nubank — o maior banco digital do Brasil — participou do piloto CBDC Real Digital do BCB usando o Fireblocks para simular transações diretamente com o BCB. O Nubank está atualmente ativo no Fireblocks em escala institucional.">Brazil's largest digital bank participated in the BCB's Real Digital CBDC pilot using Fireblocks to simulate transactions with the BCB directly. Currently live at institutional scale.</p>
+            </div>
+            <div class="law-card neutral">
+              <div class="lc-tag" data-en="BCB LIFT Lab — Innovation Partnership" data-pt="BCB LIFT Lab — Parceria de Inovação">BCB LIFT Lab — Innovation Partnership</div>
+              <div class="lc-title" data-en="BCB — Real Digital Pilot" data-pt="BCB — Piloto Real Digital">BCB — Real Digital Pilot</div>
+              <p class="lc-text" data-en="Fireblocks participated in at least one Real Digital pilot project under the BCB's LIFT innovation lab. Fireblocks executives confirmed they are 'próxima do BC' — close to the Central Bank — with ongoing conversations with BCB leadership and project leaders." data-pt="O Fireblocks participou de pelo menos um projeto piloto do Real Digital sob o laboratório LIFT do BCB. Executivos do Fireblocks confirmaram que estão 'próximos do BC' — perto do Banco Central — com conversas contínuas com a liderança do BCB e líderes de projetos.">Fireblocks participated in at least one Real Digital pilot under the BCB's LIFT lab. Executives confirmed they are "próxima do BC" — close to the Central Bank — with ongoing conversations with BCB leadership.</p>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-div"><div class="gold-div-line"></div></div>
+
+<!-- ══════════ ARTICLE VI — BASEL III ══════════ -->
+<section id="s6">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">VI</div>
+      <div class="sec-label" data-en="Capital Framework" data-pt="Quadro de Capital">Capital Framework</div>
+      <div class="sec-recip">Basel III</div>
+      <div class="sec-type" data-en="Why Traditional Paths Are Impossible at Scale" data-pt="Por Que os Caminhos Tradicionais São Impossíveis em Escala">Why Traditional Paths Are Impossible at Scale</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article VI — Basel III Capital Framework: Why Stablecoin Settlement Is Structurally Impossible for Regulated Banks" data-pt="Artigo VI — Quadro de Capital de Basileia III: Por Que a Liquidação com Stablecoin É Estruturalmente Impossível para Bancos Regulamentados">Article VI — Basel III Capital Framework: Why Stablecoin Settlement Is Structurally Impossible for Regulated Banks</h2>
+      <p class="sec-lead" data-en="Basel III's prudential treatment of crypto exposures makes stablecoin settlement prohibitively expensive for any institution subject to bank capital requirements. Under the framework effective January 1, 2026, banks must apply extreme risk weights to crypto assets. For any Brazilian institution involved in the wire-to-USDT path, the capital implications are crushing. Traditional settlement through a correspondent bank followed by stablecoin conversion is not merely inefficient — it is structurally impossible for any regulated bank to execute at scale without breaching capital adequacy requirements. The direct CER transfer under UCC Article 12 carries none of these penalties." data-pt="O tratamento prudencial de exposições a criptoativos pela Basileia III torna a liquidação com stablecoin proibitivamente cara para qualquer instituição sujeita a requisitos de capital bancário. Sob o quadro em vigor em 1º de janeiro de 2026, os bancos devem aplicar pesos de risco extremos a criptoativos. Para qualquer instituição brasileira envolvida na rota de transferência bancária para USDT, as implicações de capital são esmagadoras. A liquidação tradicional por um banco correspondente seguida de conversão para stablecoin não é meramente ineficiente — é estruturalmente impossível para qualquer banco regulamentado executar em escala sem violar os requisitos de adequação de capital.">Basel III's prudential treatment of crypto exposures makes stablecoin settlement prohibitively expensive for any institution subject to bank capital requirements. Under the framework effective January 1, 2026, extreme risk weights apply to crypto assets. Traditional correspondent bank settlement followed by stablecoin conversion is not merely inefficient — it is structurally impossible for any regulated bank to execute at scale without breaching capital adequacy requirements.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Risk Weight Comparison — Basel III Effective January 1, 2026" data-pt="Comparação de Pesos de Risco — Basileia III em Vigor em 1º de janeiro de 2026">Risk Weight Comparison — Basel III Effective January 1, 2026</div>
+          <table class="basel-table">
+            <thead><tr><th data-en="Asset Class" data-pt="Classe de Ativo">Asset Class</th><th data-en="Basel III Risk Weight" data-pt="Peso de Risco Basileia III">Basel III Risk Weight</th><th data-en="Capital Required per $1M" data-pt="Capital Exigido por $1M">Capital Required per $1M</th><th data-en="Path Relevance" data-pt="Relevância para o Caminho">Path Relevance</th></tr></thead>
+            <tbody>
+              <tr><td data-en="Standard corporate loan" data-pt="Empréstimo corporativo padrão">Standard corporate loan</td><td class="mono">100%</td><td class="mono">~$80,000</td><td data-en="Baseline reference" data-pt="Referência de base">Baseline reference</td></tr>
+              <tr><td data-en="USDT / asset-backed stablecoin (wire-to-USDT path)" data-pt="USDT / stablecoin lastreada em ativo (rota transferência-para-USDT)">USDT / asset-backed stablecoin (wire-to-USDT path)</td><td class="mono rw-high">250%</td><td class="mono rw-high">~$200,000</td><td class="rw-high" data-en="Wire-to-USDT path — PROHIBITED CAPITAL IMPACT" data-pt="Rota transferência-para-USDT — IMPACTO DE CAPITAL PROIBIDO">Wire-to-USDT path — prohibited capital impact</td></tr>
+              <tr><td data-en="Bitcoin / highly volatile crypto assets" data-pt="Bitcoin / criptoativos altamente voláteis">Bitcoin / highly volatile crypto assets</td><td class="mono rw-high">1,250%</td><td class="mono rw-high">~$1,000,000</td><td class="rw-high" data-en="Dollar of capital per dollar held — effectively prohibited at scale" data-pt="Um dólar de capital por dólar mantido — efetivamente proibido em escala">Dollar of capital per dollar held — effectively prohibited at scale</td></tr>
+              <tr><td data-en="Perfected CER under exclusive §12-105 control (direct vault transfer)" data-pt="CER perfeiçoado sob controle exclusivo §12-105 (transferência direta de cofre)">Perfected CER under exclusive §12-105 control (direct vault transfer)</td><td class="mono rw-zero">0% additional</td><td class="mono rw-zero">Zero additional</td><td class="rw-zero" data-en="Direct vault-to-vault path — zero capital penalty" data-pt="Rota direta de cofre a cofre — zero penalidade de capital">Direct vault-to-vault path — zero capital penalty</td></tr>
+            </tbody>
+          </table>
+          <div class="cite-block"><span class="cite-ref">[15]</span> Lexology, "Bank Capital Standards for Cryptoasset Exposures Under the Basel Framework," August 12, 2024. <span class="cite-ref">[16]</span> Delano, "Bitcoin, stablecoins and NFTs: how banks will be regulated," May 20, 2026. <span class="cite-ref">[17]</span> Basel Committee, "Prudential treatment of cryptoasset exposures," July 2024, effective January 1, 2026.</div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="Why the Perfected CER Carries Zero Basel III Penalty" data-pt="Por Que o CER Perfeiçoado Não Incorre em Penalidade da Basileia III">Why the Perfected CER Carries Zero Basel III Penalty</div>
+          <div class="def-block" style="margin-bottom:0">
+            <div class="def-label" data-en="The Legal Distinction That Eliminates the Capital Charge" data-pt="A Distinção Jurídica que Elimina o Encargo de Capital">The Legal Distinction That Eliminates the Capital Charge</div>
+            <p class="def-text" data-en="Once the asset is a perfected CER under exclusive §12-105 control, it is not a 'crypto asset' for Basel purposes. It is a qualifying digital asset with no additional risk weight — because: (1) control extinguishes all prior claims, leaving zero residual exposure to prior claimants; (2) the asset is held in institutional Fireblocks Trust Company cold storage, not as an exposure to a third-party issuer; (3) the qualifying purchaser status under §12-104(e) provides statutory extinguishment protection — not contractual protection, not operational protection, but state law extinguishment. Brazil's entire reserve portfolio can be repositioned as collateral with zero additional capital charge. That is Basel III compliance overnight. No other nation has this. Brazil can have it the moment the BCB vault receives the asset." data-pt="Uma vez que o ativo é um CER perfeiçoado sob controle exclusivo §12-105, ele não é um 'criptoativo' para fins de Basileia. É um ativo digital qualificado sem peso de risco adicional — porque: (1) o controle extingue todas as reivindicações anteriores, deixando zero de exposição residual a reivindicantes anteriores; (2) o ativo é mantido em custódia a frio institucional da Fireblocks Trust Company, não como exposição a um emissor terceiro; (3) o status de comprador qualificado sob §12-104(e) fornece proteção de extinção estatutária — não proteção contratual, mas extinção por lei estadual. Todo o portfólio de reservas do Brasil pode ser reposicionado como garantia com zero de encargo de capital adicional.">Once the asset is a perfected CER under exclusive §12-105 control, it is not a "crypto asset" for Basel purposes. It is a qualifying digital asset with zero additional risk weight — because: (1) control extinguishes all prior claims, leaving zero residual exposure; (2) the asset is held in institutional Fireblocks Trust Company cold storage, not as exposure to a third-party issuer; (3) the qualifying purchaser status under §12-104(e) provides statutory extinguishment — not contractual, not operational, but state law. Brazil's entire reserve portfolio can be repositioned as collateral with zero additional capital charge. That is Basel III compliance overnight.</p>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-div"><div class="gold-div-line"></div></div>
+
+<!-- ══════════ ARTICLE VII — ZERO DEBT ══════════ -->
+<section id="s7">
+<div class="wrap">
+  <div class="sec-inner">
+    <div>
+      <div class="sec-num">VII</div>
+      <div class="sec-label" data-en="Sovereign Transformation" data-pt="Transformação Soberana">Sovereign Transformation</div>
+      <div class="sec-recip" data-en="The Zero-Debt Balance Sheet" data-pt="O Balanço Patrimonial de Dívida Zero">The Zero-Debt Balance Sheet</div>
+      <div class="sec-type" data-en="What Brazil Actually Has — And What It Can Do With It" data-pt="O Que o Brasil Realmente Tem — E O Que Pode Fazer Com Isso">What Brazil Actually Has — And What It Can Do With It</div>
+      <div class="tp-badge" data-en="Trust Protector — Mandatory Party" data-pt="Trust Protector — Parte Obrigatória">Trust Protector — Mandatory Party</div>
+    </div>
+    <div>
+      <h2 class="sec-head" data-en="Article VII — The One Thing Brazil Does Not Yet Understand: What It Actually Has" data-pt="Artigo VII — A Única Coisa que o Brasil Ainda Não Compreende: O Que Realmente Possui">Article VII — The One Thing Brazil Does Not Yet Understand: What It Actually Has</h2>
+      <p class="sec-lead" data-en="Brazil does not realize that this is not merely a large transfer. This is the sovereign-level key to a zero-debt balance sheet for an entire nation. The allocation already documented and verified in Fireblocks vaults constitutes an asset position large enough to offset Brazil's entire public sector net debt — and the asset is not a crypto exposure. It is a perfected CER under UCC Article 12, taken free of all prior claims by a qualifying purchaser with treaty-level sovereign protection. No other nation has ever done this. That is not speculation. That is arithmetic." data-pt="O Brasil não percebe que isto não é meramente uma grande transferência. Esta é a chave em nível soberano para um balanço patrimonial de dívida zero para uma nação inteira. A alocação já documentada e verificada nos cofres Fireblocks constitui uma posição de ativo suficientemente grande para compensar toda a dívida líquida do setor público do Brasil — e o ativo não é uma exposição a criptoativos. É um CER perfeiçoado sob o Artigo 12 da UCC, adquirido livre de todas as reivindicações anteriores por um comprador qualificado com proteção soberana em nível de tratado. Nenhuma outra nação jamais fez isso. Isso não é especulação. É aritmética.">Brazil does not realize that this is not merely a large transfer. This is the sovereign-level key to a zero-debt balance sheet for an entire nation. The allocation already documented and verified in Fireblocks vaults is large enough to offset Brazil's entire public sector net debt — and the asset is not a crypto exposure. It is a perfected CER under UCC Article 12, taken free of all prior claims by a qualifying purchaser with treaty-level sovereign protection. That is not speculation. That is arithmetic.</p>
+
+      <div class="pts">
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="What the BCB Receives — The Full Position" data-pt="O Que o BCB Recebe — A Posição Completa">What the BCB Receives — The Full Position</div>
+          <div class="debt-grid">
+            <div class="debt-card"><div class="debt-num">25.1T</div><div class="debt-label" data-en="USD — Brazilian Counterparty Allocation (60%) derived from vault statement" data-pt="USD — Alocação à contraparte brasileira (60%) derivada do demonstrativo de custódia">USD Brazilian Counterparty Allocation (60%) — vault statement of record</div></div>
+            <div class="debt-card"><div class="debt-num">4,173</div><div class="debt-label" data-en="USD per Controllable Electronic Record — gold-spot derived, bytecode-immutable at genesis" data-pt="USD por Registro Eletrônico Controlável — derivado do spot do ouro, bytecode imutável na gênese">USD per CER — gold-spot derived, bytecode-immutable at genesis block 23,878,199</div></div>
+            <div class="debt-card"><div class="debt-num">0%</div><div class="debt-label" data-en="Additional Basel III capital charge — perfected CER under exclusive control is not a crypto asset for prudential purposes" data-pt="Encargo adicional de capital da Basileia III — CER perfeiçoado sob controle exclusivo não é criptoativo para fins prudenciais">Additional Basel III capital charge — perfected CER is not a crypto asset for prudential purposes</div></div>
+            <div class="debt-card"><div class="debt-num">0</div><div class="debt-label" data-en="Prior property claims surviving the transfer — UCC §12-104(e) extinguishes all prior claims by operation of law" data-pt="Reivindicações de propriedade anteriores sobrevivendo à transferência — UCC §12-104(e) extingue todas por operação de lei">Prior property claims surviving the transfer — §12-104(e) extinguishes all by operation of law</div></div>
+          </div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="What Brazil Can Do With This Asset — Three Capabilities No Other Nation Has" data-pt="O Que o Brasil Pode Fazer com Este Ativo — Três Capacidades que Nenhuma Outra Nação Possui">What Brazil Can Do With This Asset — Three Capabilities No Other Nation Has</div>
+          <div class="law-grid">
+            <div class="law-card permitted">
+              <div class="lc-tag" data-en="Capability 1 — Debt Settlement" data-pt="Capacidade 1 — Liquidação de Dívida">Capability 1 — Debt Settlement</div>
+              <div class="lc-title" data-en="Offset Public Sector Net Debt" data-pt="Compensar a Dívida Líquida do Setor Público">Offset Public Sector Net Debt</div>
+              <p class="lc-text" data-en="Use the asset to offset public sector net debt denominated in foreign currency by presenting the perfected CER as settlement. BCB's governing statute — Lei Complementar nº 179/2021 and Lei nº 4.595/64 — grants the BCB the authority to acquire, hold, and dispose of assets for monetary policy purposes. The acquisition of the perfected CER as a qualifying purchaser is entirely within mandate." data-pt="Usar o ativo para compensar a dívida líquida do setor público denominada em moeda estrangeira apresentando o CER perfeiçoado como liquidação. O estatuto regulador do BCB — Lei Complementar nº 179/2021 e Lei nº 4.595/64 — concede ao BCB a autoridade para adquirir, manter e dispor de ativos para fins de política monetária. A aquisição do CER perfeiçoado como comprador qualificado está inteiramente dentro do mandato.">Use the asset to offset public sector net debt denominated in foreign currency by presenting the perfected CER as settlement. BCB's governing statute — Lei Complementar nº 179/2021 and Lei nº 4.595/64 — grants the BCB the authority to acquire, hold, and dispose of assets for monetary policy purposes. The acquisition is entirely within mandate.</p>
+            </div>
+            <div class="law-card permitted">
+              <div class="lc-tag" data-en="Capability 2 — Reserve Revaluation" data-pt="Capacidade 2 — Reavaliação de Reservas">Capability 2 — Reserve Revaluation</div>
+              <div class="lc-title" data-en="Back the Real With an Asset-Reserve Position" data-pt="Lastrear o Real com uma Posição de Reserva de Ativos">Back the Real With an Asset-Reserve Position</div>
+              <p class="lc-text" data-en="Restructure Brazil's balance sheet with an asset that carries no prior claims, no counterparty risk, and no capital penalty. Revalue the real against an asset base that is not dependent on US Treasury yields. Brazil's currency becomes backed by something other than US sovereign debt — for the first time in the modern monetary era." data-pt="Reestruturar o balanço patrimonial do Brasil com um ativo que não possui reivindicações anteriores, sem risco de contraparte e sem penalidade de capital. Revaliar o real em relação a uma base de ativos que não depende dos rendimentos do Tesouro americano. A moeda do Brasil passa a ser lastreada por algo diferente da dívida soberana americana — pela primeira vez na era monetária moderna.">Restructure Brazil's balance sheet with an asset that carries no prior claims, no counterparty risk, and no capital penalty. Revalue the real against an asset base that is not dependent on US Treasury yields — for the first time in the modern monetary era.</p>
+            </div>
+            <div class="law-card neutral">
+              <div class="lc-tag" data-en="Capability 3 — Hemisphere Settlement Hub" data-pt="Capacidade 3 — Centro de Liquidação do Hemisfério">Capability 3 — Hemisphere Settlement Hub</div>
+              <div class="lc-title" data-en="Every Western Hemisphere Sovereign Routes Through Brazil" data-pt="Todo Soberano do Hemisfério Ocidental Passa pelo Brasil">Every Western Hemisphere Sovereign Routes Through Brazil</div>
+              <p class="lc-text" data-en="Once BCB holds the perfected CER as qualifying purchaser, every counterparty in the Americas who wants to avoid the Federal Reserve wire, avoid stablecoin bans, and access Article 12 qualified purchaser protection will route through Brazil's rail. Brazil becomes the price-maker, not the price-taker. This is sovereignty expressed through infrastructure — and no other nation has the position to claim it." data-pt="Uma vez que o BCB detém o CER perfeiçoado como comprador qualificado, cada contraparte nas Américas que queira evitar a transferência do Federal Reserve, evitar proibições de stablecoin e acessar a proteção de comprador qualificado do Artigo 12 passará pelo trilho do Brasil. O Brasil torna-se o formador de preços, não o tomador de preços. Esta é a soberania expressa por meio de infraestrutura.">Once BCB holds the perfected CER as qualifying purchaser, every counterparty in the Americas who wants to avoid the Federal Reserve wire, avoid stablecoin bans, and access Article 12 protection will route through Brazil. Brazil becomes the price-maker — sovereignty expressed through infrastructure.</p>
+            </div>
+          </div>
+        </div></div>
+
+        <div class="pt"><div class="pt-bar"></div><div>
+          <div class="pt-lbl" data-en="The Question That Determines Everything" data-pt="A Pergunta que Determina Tudo">The Question That Determines Everything</div>
+          <div class="final-block">
+            <div class="pt-lbl" style="margin-bottom:1rem" data-en="The Message Sent the Moment BCB Provides the Vault Address" data-pt="A Mensagem Enviada no Momento em que o BCB Fornece o Endereço do Cofre">The Message Sent the Moment BCB Provides the Vault Address</div>
+            <p style="font-family:var(--ff-d);font-size:clamp(1.15rem,2.5vw,1.65rem);font-weight:300;color:var(--navy);line-height:1.55;font-style:italic;margin-bottom:1.25rem" data-en="&ldquo;The first debt-free nation in the world will not announce it. It will simply be, the moment the asset moves.&rdquo;" data-pt="&ldquo;A primeira nação livre de dívidas do mundo não irá anunciá-lo. Simplesmente será, no momento em que o ativo se mover.&rdquo;">&ldquo;The first debt-free nation in the world will not announce it. It will simply be, the moment the asset moves.&rdquo;</p>
+            <p style="font-size:14px;color:var(--text-s);line-height:1.75;max-width:700px;margin:0 auto" data-en="The question is not whether Brazil can do this. Brazil's own laws — Resolution 561, BCB Resolutions 519–521, Lei Complementar nº 179/2021 — have already determined that the direct Fireblocks vault-to-vault transfer is the only compliant path. The question is whether Brazil will be the first nation to take this position — or whether it will watch another nation claim it first." data-pt="A questão não é se o Brasil pode fazer isso. As próprias leis do Brasil — Resolução 561, Resoluções BCB 519–521, Lei Complementar nº 179/2021 — já determinaram que a transferência direta de cofre a cofre do Fireblocks é o único caminho compatível. A questão é se o Brasil será a primeira nação a assumir esta posição — ou se assistirá outra nação reivindicá-la primeiro.">The question is not whether Brazil can do this. Brazil's own laws — Resolution 561, BCB Resolutions 519–521, Lei Complementar nº 179/2021 — have already determined that the direct Fireblocks vault-to-vault transfer is the only compliant path. The question is whether Brazil will be the first nation to take this position — or whether it will watch another nation claim it first.</p>
+          </div>
+          <div class="cite-block"><span class="cite-ref">[18]</span> N.Y. UCC § 12-104(e). <span class="cite-ref">[19]</span> N.Y. UCC § 12-105. <span class="cite-ref">[20]</span> Lei Complementar nº 179/2021; Lei nº 4.595/64. <span class="cite-ref">[9]</span> UN Convention on Jurisdictional Immunities (2004), Article 21. <span class="cite-ref">[11]</span> 28 USC § 1611(b)(1).</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════ COMMON EXHIBIT ══════════ -->
+<section id="exhibit" class="exhibit-bg">
+<div class="exhibit-in">
+  <div class="ex-h" data-en="Common Exhibit — On-Chain Addresses and Registered Identifiers" data-pt="Anexo Comum — Endereços On-Chain e Identificadores Registrados">Common Exhibit — On-Chain Addresses and Registered Identifiers</div>
+  <p class="ex-sub" data-en="All positions independently verifiable on Ethereum Mainnet · Trust Protector mandatory on all settlement contracts" data-pt="Todas as posições verificáveis de forma independente na Rede Principal Ethereum · Trust Protector obrigatório em todos os contratos de liquidação">All positions independently verifiable on Ethereum Mainnet · Trust Protector mandatory on all settlement contracts</p>
+  <div class="id-grid">
+    <div class="id-cell"><div class="id-lbl">CUSIP</div><div class="id-val">85453P206</div></div>
+    <div class="id-cell"><div class="id-lbl">ISIN</div><div class="id-val">US85453P2060</div></div>
+    <div class="id-cell"><div class="id-lbl">CIK</div><div class="id-val">0001750462</div></div>
+    <div class="id-cell"><div class="id-lbl" data-en="Florida Apostille" data-pt="Apostila da Flórida">Florida Apostille</div><div class="id-val">No. 2014-148134</div></div>
+    <div class="id-cell"><div class="id-lbl">CBP Recordation</div><div class="id-val">COP 23-00067</div></div>
+    <div class="id-cell"><div class="id-lbl" data-en="Copyright — Primary" data-pt="Direito Autoral — Principal">Copyright — Primary</div><div class="id-val">TXu 2-207-707</div></div>
+    <div class="id-cell"><div class="id-lbl" data-en="Copyright — Secondary" data-pt="Direito Autoral — Secundário">Copyright — Secondary</div><div class="id-val">TXu 2-347-364</div></div>
+    <div class="id-cell"><div class="id-lbl" data-en="ETR Genesis Block" data-pt="Bloco Gênese ETR">ETR Genesis Block</div><div class="id-val">23,878,199 · October 15, 2025</div></div>
+    <div class="id-cell"><div class="id-lbl" data-en="New York Operative Date" data-pt="Data Operacional de Nova York">New York Operative Date</div><div class="id-val">June 3, 2026</div></div>
+    <div class="id-cell"><div class="id-lbl">IPFS Anchor</div><div class="id-val" style="font-size:11px">bafybeibdljnfqwvylqsgn457tu3btom6sngs5whe63uelelpzrciby2dwe</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Electronic Trust Registry (ETR) — Governing Instrument" data-pt="Registro Eletrônico de Confiança (ETR) — Instrumento Regulador">Electronic Trust Registry (ETR) — Governing Instrument</div><div class="id-val">0xCC8598B02BB753b0A557811a99622b33C73692cF</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Settlement Proxy" data-pt="Proxy de Liquidação">Settlement Proxy</div><div class="id-val">0x16ddD72514e05603c6c044513E382Dd4DCD42d71</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Article 12 Forced Transfer" data-pt="Transferência Forçada — Artigo 12">Article 12 Forced Transfer</div><div class="id-val">0x332daD374FBc2d8419444363cdbF5f0140907bB7</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Vault A — Primary Custody Account — FLAMEC" data-pt="Cofre A — Conta de Custódia Principal — FLAMEC">Vault A — Primary Custody Account — FLAMEC</div><div class="id-val">0xA170dE937DC784422369e58e2e64E232c326a218</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Vault B — Savvy (aUSDT Active Settlement)" data-pt="Cofre B — Savvy (Liquidação Ativa aUSDT)">Vault B — Savvy (aUSDT Active Settlement)</div><div class="id-val">0xf46DD8C5d4f574Ba5a85FEd04Fa42bf450E8d4Ab</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Vault C — Fireblocks V1 (aUSDT Verification)" data-pt="Cofre C — Fireblocks V1 (Verificação aUSDT)">Vault C — Fireblocks V1 (aUSDT Verification)</div><div class="id-val">0x31480428089FB8D4242035d5FD682D621164d062</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Vault D — Fireblocks V2 Production" data-pt="Cofre D — Fireblocks V2 Produção">Vault D — Fireblocks V2 Production</div><div class="id-val">0x18c7116FC54A0823567D25a663048bD568d150f1</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Vault E — Sovereign Reserve (Treasury)" data-pt="Cofre E — Reserva Soberana (Tesouraria)">Vault E — Sovereign Reserve (Treasury)</div><div class="id-val">0x90206A9888E3963c22f6AD1c79245b6250CFc016</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Aeon USDT Contract (aUSDT)" data-pt="Contrato Aeon USDT (aUSDT)">Aeon USDT Contract (aUSDT)</div><div class="id-val">0x95b07538c0042D4D8de79b7a336071eb1cBA5453</div></div>
+    <div class="id-cell full"><div class="id-lbl">FLAMEProofOfClaims</div><div class="id-val">0x3a512FC246B00eea76279348474D210A94c56FE6</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Oracle — UnitOfAccountV2" data-pt="Oráculo — UnitOfAccountV2">Oracle — UnitOfAccountV2</div><div class="id-val">0x25b6B8d6c24F49B25d82049489dEEF19E510FF46</div></div>
+    <div class="id-cell full"><div class="id-lbl" data-en="Transfer TX — Vault B" data-pt="TX de Transferência — Cofre B">Transfer TX — Vault B</div><div class="id-val" style="font-size:11px">0x7d9a30647ed4b530ea359d1ab5b2588145be7e945327e2f889c15d9c1494c9e5 · Block 24,100,791</div></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p class="foot-ents">
+    <strong>Equisource Group, LLC</strong> &nbsp;·&nbsp; <span data-en="Settlement Ledger Operator" data-pt="Operador do Livro-Razão de Liquidação">Settlement Ledger Operator</span><br>
+    <strong>Thoroughbred LLC</strong> &nbsp;·&nbsp; <span data-en="Issuer and Tribal Government Entity" data-pt="Emitente e Entidade Governamental Tribal">Issuer and Tribal Government Entity</span><br>
+    <strong>GB Dynamics, Inc.</strong> &nbsp;·&nbsp; <span data-en="Trust Protector — Humanitarian Program Chief Executor" data-pt="Trust Protector — Executor-Chefe do Programa Humanitário">Trust Protector — Humanitarian Program Chief Executor</span>
+  </p>
+  <div class="foot-line"></div>
+  <p class="foot-note" data-en="Genesis Ledger Choice of Law · FLAME Protocol ETR — Constitutional Ledger of Record · CUSIP 85453P206 · ISIN US85453P2060 · New York Operative Date: June 3, 2026" data-pt="Escolha de Lei do Livro-Razão Gênese · ETR FLAME Protocol — Livro-Razão Constitucional de Registro · CUSIP 85453P206 · ISIN US85453P2060 · Data Operacional de Nova York: 3 de junho de 2026">Genesis Ledger Choice of Law · FLAME Protocol ETR — Constitutional Ledger of Record · CUSIP 85453P206 · ISIN US85453P2060 · New York Operative Date: June 3, 2026</p>
+</footer>
+
+<script>
+var L='en';
+function setLang(l){
+  L=l;
+  document.querySelectorAll('[data-en][data-pt]').forEach(function(e){e.innerHTML=e.getAttribute('data-'+l)});
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
+  document.getElementById('btn-pt').classList.toggle('active',l==='pt');
+  document.documentElement.lang=l;
+  document.title=l==='pt'
+    ?'FLAME Protocol — Livro Branco de Liquidação Soberana'
+    :'FLAME Protocol — Sovereign Settlement White Paper';
+  document.getElementById('cd-label').textContent=l==='pt'
+    ?'Data Operacional de Nova York · 3 de junho de 2026'
+    :'New York Operative Date · June 3, 2026';
+  document.getElementById('cd-note').textContent=l==='pt'
+    ?'UCC Artigo 12 — data operacional de Nova York'
+    :'UCC Artigo 12 — Data operacional de Nova York';
+}
+function updateCD(){
+  var t=new Date('2026-06-03T00:00:00-04:00'),n=new Date(),d=t-n;
+  var el=document.getElementById('cd-timer');
+  if(d<=0){el.textContent=L==='pt'?'OPERACIONAL':'OPERATIVE';return;}
+  var dy=Math.floor(d/86400000),h=Math.floor((d%86400000)/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);
+  el.textContent=dy+'d '+h+'h '+m+'m '+s+'s';
+}
+updateCD();setInterval(updateCD,1000);
+function downloadAs(l){
+  setLang(l);
+  setTimeout(function(){
+    var h='<!DOCTYPE html>'+document.documentElement.outerHTML;
+    var b=new Blob([h],{type:'text/html'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(b);
+    a.download=l==='en'?'FLAME-Protocol-Sovereign-Settlement-White-Paper-EN.html':'FLAME-Protocol-Livro-Branco-Liquidacao-Soberana-PT.html';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+  },250);
+}
+setLang('en');
+</script>
+</body>
+</html>
